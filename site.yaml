@@ -1,0 +1,5 @@
+---
+- name: Install and configure Kubernetes cluster
+  hosts: all
+  become: true
+  roles:
