@@ -1,0 +1,22 @@
+---
+- name: Download flannel
+  ansible.builtin.get_url:
+    url: "{{ kubernetes_flannel_url }}"
+    dest: /tmp/flannel.yaml
+    mode: '0664'
+
+- name: Apply flannel
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/flannel.yaml
+
+- name: Download calico
+  ansible.builtin.get_url:
+    url: "{{ kubernetes_calico_url }}"
+    dest: /tmp/calico.yaml
+    mode: '0664'
+
+- name: Apply calico
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/calico.yaml

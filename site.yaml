@@ -1,6 +1,8 @@
 ---
-- name: Install and configure Kubernetes cluster
+- name: Master Playbook
   hosts: all
   become: true
+  become_method: sudo
   roles:
-    - ping
+    - role: containerd
+    - role: kubernetes

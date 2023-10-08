@@ -1,0 +1,40 @@
+---
+- name: Create .kube directory
+  ansible.builtin.file:
+    path: $HOME/.kube
+    state: directory
+    mode: '0750'
+
+- name: Copy admin.conf to .kube directory
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: $HOME/.kube/config
+    remote_src: true
+    mode: '0640'
+
+- name: Add kubectl autocomplete to bashrc using lineinfile
+  ansible.builtin.lineinfile:
+    path: $HOME/.bashrc
+    line: "source <(kubectl completion bash)"
+    create: true
+    mode: '0640'
+    insertafter: EOF
+    state: present
+
+- name: Add kubectl alias to bashrc using lineinfile
+  ansible.builtin.lineinfile:
+    path: $HOME/.bashrc
+    line: "alias k=kubectl"
+    create: true
+    mode: '0640'
+    insertafter: EOF
+    state: present
+
+- name: Add kubectl alias autocomplete to bashrc using lineinfile
+  ansible.builtin.lineinfile:
+    path: $HOME/.bashrc
+    line: "complete -F __start_kubectl k"
+    create: true
+    mode: '0640'
+    insertafter: EOF
+    state: present

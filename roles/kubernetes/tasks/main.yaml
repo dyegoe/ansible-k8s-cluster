@@ -1,0 +1,22 @@
+---
+- name: Install for Debian family
+  ansible.builtin.include_tasks: debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Configure system
+  ansible.builtin.include_tasks: system.yaml
+
+- name: Configure kubeadm for masters
+  ansible.builtin.include_tasks: kubeadm.yaml
+  when: "'masters' in group_names"
+
+- name: Configure kubectl for masters
+  ansible.builtin.include_tasks: kubectl.yaml
+  when: "'masters' in group_names"
+
+- name: Install network
+  ansible.builtin.include_tasks: network.yaml
+  when: "'masters' in group_names"
+
+- name: Configure nodes
+  ansible.builtin.include_tasks: nodes.yaml
