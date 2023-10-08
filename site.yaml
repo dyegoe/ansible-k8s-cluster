@@ -1,0 +1,7 @@
+---
+- name: Master Playbook
+  hosts: all
+  become: true
+  roles:
+    - role: containerd
+    - role: kubernetes

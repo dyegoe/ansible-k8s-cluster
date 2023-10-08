@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    ".pre-commit-config.yaml": "yaml",
+    ".pre-commit-hooks.yaml": "yaml",
+    ".github/workflows/*.yml": "yaml",
+    "**/*.yaml": "ansible",
+    "**/*.yml": "ansible"
+  },
+  "ansible.python.interpreterPath": "/bin/python"
+}

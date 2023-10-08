@@ -1,0 +1,31 @@
+---
+ci:
+  autoupdate_commit_msg: "chore: pre-commit autoupdate"
+  autoupdate_schedule: monthly
+  autofix_commit_msg: |
+    chore: auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  submodules: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: detect-aws-credentials
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        # exclude json files
+        exclude: '\.json$'
+      - id: mixed-line-ending
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v6.13.1
+    hooks:
+      - id: ansible-lint
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.32.0
+    hooks:
+      - id: yamllint
+        files: \.(yaml|yml)$
+        types: [file, yaml]
+        entry: yamllint --strict
