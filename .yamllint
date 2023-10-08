@@ -1,6 +1,6 @@
 ---
-# extends: default
-# rules:
-#   truthy:
-#     ignore:
-#       - .github/workflows/ansible-lint.yaml
+extends: default
+rules:
+  truthy:
+    ignore:
+      - .github/workflows/ansible-lint.yaml
