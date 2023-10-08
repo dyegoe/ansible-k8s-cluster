@@ -4,19 +4,23 @@
     url: "{{ kubernetes_flannel_url }}"
     dest: /tmp/flannel.yaml
     mode: '0664'
+  when: kubernetes_network_plugin == 'flannel'
 
 - name: Apply flannel
   kubernetes.core.k8s:
     state: present
     src: /tmp/flannel.yaml
+  when: kubernetes_network_plugin == 'flannel'
 
 - name: Download calico
   ansible.builtin.get_url:
     url: "{{ kubernetes_calico_url }}"
     dest: /tmp/calico.yaml
     mode: '0664'
+  when: kubernetes_network_plugin == 'calico'
 
 - name: Apply calico
   kubernetes.core.k8s:
     state: present
     src: /tmp/calico.yaml
+  when: kubernetes_network_plugin == 'calico'
