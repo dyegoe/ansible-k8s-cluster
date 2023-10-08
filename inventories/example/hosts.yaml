@@ -1,14 +1,15 @@
 ---
-masters:
-  hosts:
-    master:
-      ansible_host: 10.100.200.2
-      ansible_user: ubuntu
-nodes:
-  hosts:
-    node01:
-      ansible_host: 10.100.200.3
-      ansible_user: ubuntu
-    node02:
-      ansible_host: 10.100.200.4
-      ansible_user: ubuntu
+all:
+  vars:
+    ansible_user: ubuntu
+  children:
+    masters:
+      hosts:
+        master:
+          ansible_host: 10.100.200.2
+    nodes:
+      hosts:
+        node01:
+          ansible_host: 10.100.200.3
+        node02:
+          ansible_host: 10.100.200.4
