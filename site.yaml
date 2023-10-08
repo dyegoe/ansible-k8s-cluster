@@ -2,7 +2,6 @@
 - name: Master Playbook
   hosts: all
   become: true
-  become_method: sudo
   roles:
     - role: containerd
     - role: kubernetes
