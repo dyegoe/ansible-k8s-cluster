@@ -17,6 +17,8 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
     all:
       vars:
         ansible_user: ubuntu
+        kubernetes_cni: flannel
+        kubernetes_argocd_install: true
       children:
         masters:
           hosts:

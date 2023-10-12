@@ -2,6 +2,8 @@
 all:
   vars:
     ansible_user: ubuntu
+    kubernetes_cni: flannel
+    kubernetes_argocd_install: true
   children:
     masters:
       hosts:
