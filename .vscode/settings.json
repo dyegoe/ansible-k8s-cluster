@@ -2,9 +2,15 @@
   "files.associations": {
     ".pre-commit-config.yaml": "yaml",
     ".pre-commit-hooks.yaml": "yaml",
+    ".github/workflows/*.yaml": "yaml",
     ".github/workflows/*.yml": "yaml",
+    ".yamllint": "yaml",
     "**/*.yaml": "ansible",
     "**/*.yml": "ansible"
+  },
+  "yaml.schemas": {
+    ".github/workflows/*.yaml": "https://raw.githubusercontent.com/chrismalek/azure-vmss-ignition/master/cloud-config.schema.json",
+    ".github/workflows/*.yml": "https://raw.githubusercontent.com/chrismalek/azure-vmss-ignition/master/cloud-config.schema.json"
   },
   "ansible.python.interpreterPath": "/bin/python"
 }

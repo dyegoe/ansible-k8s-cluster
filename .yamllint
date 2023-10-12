@@ -7,4 +7,5 @@ rules:
     allow-non-breakable-inline-mappings: true
   truthy:
     ignore:
-      - .github/workflows/ansible-lint.yaml
+      - .github/workflows/*.yaml
+      - .github/workflows/*.yml
