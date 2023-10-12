@@ -20,3 +20,7 @@
 
 - name: Configure nodes
   ansible.builtin.include_tasks: nodes.yaml
+
+- name: Install ArgoCD
+  ansible.builtin.include_tasks: argocd.yaml
+  when: "'masters' in group_names"
