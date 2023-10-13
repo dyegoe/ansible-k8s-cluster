@@ -2,8 +2,8 @@
   "files.associations": {
     ".pre-commit-config.yaml": "yaml",
     ".pre-commit-hooks.yaml": "yaml",
-    ".github/workflows/*.yaml": "yaml",
-    ".github/workflows/*.yml": "yaml",
+    ".github/workflows/*.yaml": "github-actions-workflow",
+    ".github/workflows/*.yml": "github-actions-workflow",
     ".yamllint": "yaml",
     "**/*.yaml": "ansible",
     "**/*.yml": "ansible"
