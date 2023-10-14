@@ -1,7 +1,15 @@
 ---
-- name: Master Playbook
+- name: Site Playbook
   hosts: all
   become: true
   roles:
     - role: containerd
     - role: kubernetes
+
+- name: Master specific tasks
+  hosts: masters
+  become: true
+  roles:
+    - role: metallb
+      tags: metallb
+      when: metallb_enabled | default(false) | bool

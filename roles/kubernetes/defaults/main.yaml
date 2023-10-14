@@ -7,3 +7,4 @@ kubernetes_calico_url: "https://raw.githubusercontent.com/projectcalico/calico/{
 kubernetes_pod_subnet: "10.244.0.0/16"
 kubernetes_argocd_install: true
 kubernetes_argocd_url: "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+kubernetes_argocd_bin_url: "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64"

@@ -1,21 +1,21 @@
 ---
-- name: Create ArgoCD namespace
-  kubernetes.core.k8s:
-    state: present
-    name: argocd
-    kind: Namespace
-  when: kubernetes_argocd_install
+- name: Install ArgoCD
+  when: kubernetes_argocd_install | bool
+  block:
+    - name: Create ArgoCD namespace
+      kubernetes.core.k8s:
+        state: present
+        name: argocd
+        kind: Namespace
 
-- name: Download ArgoCD
-  ansible.builtin.get_url:
-    url: "{{ kubernetes_argocd_url }}"
-    dest: /tmp/argocd.yaml
-    mode: '0664'
-  when: kubernetes_argocd_install
+    - name: Download ArgoCD
+      ansible.builtin.get_url:
+        url: "{{ kubernetes_argocd_url }}"
+        dest: /tmp/argocd.yaml
+        mode: '0664'
 
-- name: Apply ArgoCD
-  kubernetes.core.k8s:
-    state: present
-    src: /tmp/argocd.yaml
-    namespace: argocd
-  when: kubernetes_argocd_install
+    - name: Apply ArgoCD
+      kubernetes.core.k8s:
+        state: present
+        src: /tmp/argocd.yaml
+        namespace: argocd
