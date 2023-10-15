@@ -1,6 +1,5 @@
 ---
 k8s_network_cni: flannel
-k8s_network_pod_subnet: "10.244.0.0/16"
 k8s_network_flannel_version: v0.22.3
 k8s_network_flannel_url: https://github.com/flannel-io/flannel/releases/download/{{ k8s_network_flannel_version }}/kube-flannel.yml
 k8s_network_calico_version: v3.26.1
