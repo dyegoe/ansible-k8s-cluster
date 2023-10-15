@@ -1,0 +1,8 @@
+---
+- name: Include master.yaml when hostname is group master
+  ansible.builtin.include_tasks: master.yaml
+  when: inventory_hostname in groups['master']
+
+- name: Include workers.yaml when hostname is group workers
+  ansible.builtin.include_tasks: workers.yaml
+  when: inventory_hostname in groups['workers']
