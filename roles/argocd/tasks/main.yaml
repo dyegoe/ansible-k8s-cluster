@@ -2,7 +2,7 @@
 - name: Create ArgoCD namespace
   kubernetes.core.k8s:
     state: present
-    name: argocd
+    name: "{{ argocd_namespace }}"
     kind: Namespace
 
 - name: Download ArgoCD
@@ -15,7 +15,7 @@
   kubernetes.core.k8s:
     state: present
     src: "{{ argocd_temp_file }}"
-    namespace: argocd
+    namespace: "{{ argocd_namespace }}"
 
 - name: Install ArgoCD cli
   ansible.builtin.get_url:
@@ -27,3 +27,14 @@
   ansible.builtin.file:
     path: "{{ argocd_temp_file }}"
     state: absent
+
+- name: Patch service if MetalLB is enabled
+  kubernetes.core.k8s:
+    state: patched
+    kind: Service
+    name: argocd-server
+    namespace: "{{ argocd_namespace }}"
+    definition:
+      spec:
+        type: LoadBalancer
+  when: metallb_enabled | default(false) | bool

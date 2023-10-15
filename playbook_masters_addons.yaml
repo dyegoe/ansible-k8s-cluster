@@ -6,10 +6,10 @@
     - name: Include sanity check
       ansible.builtin.include_tasks: sanity_check.yaml
   roles:
-    - role: argocd
-      tags: [argocd]
-      when: argocd_enabled | default(false) | bool
-
     - role: metallb
       tags: [metallb]
       when: metallb_enabled | default(false) | bool
+
+    - role: argocd
+      tags: [argocd]
+      when: argocd_enabled | default(false) | bool
