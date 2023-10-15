@@ -17,8 +17,8 @@
     src: /tmp/argocd.yaml
     namespace: argocd
 
-- name: Install ArgoCD binary
+- name: Install ArgoCD cli
   ansible.builtin.get_url:
-    url: "{{ argocd_binary_url }}"
+    url: "{{ argocd_cli_url }}"
     dest: /usr/local/bin/argocd
     mode: '0555'
