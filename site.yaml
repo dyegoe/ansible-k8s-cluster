@@ -7,3 +7,6 @@
 
 - name: Import playbook_workers
   ansible.builtin.import_playbook: playbook_workers.yaml
+
+- name: Import playbook_masters_addons
+  ansible.builtin.import_playbook: playbook_masters_addons.yaml

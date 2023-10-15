@@ -14,11 +14,3 @@
 
     - role: kube_network
       tags: [kube_network]
-
-    - role: argocd
-      tags: [argocd]
-      when: argocd_enabled | default(false) | bool
-
-    - role: metallb
-      tags: [metallb]
-      when: metallb_enabled | default(false) | bool
