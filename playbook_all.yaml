@@ -1,0 +1,13 @@
+---
+- name: All hosts playbook
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+  roles:
+    - role: containerd
+      tags: [containerd]
+
+    - role: kube_install
+      tags: [kube_install]

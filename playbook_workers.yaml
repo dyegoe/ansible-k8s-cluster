@@ -1,0 +1,10 @@
+---
+- name: Workers hosts playbook
+  hosts: workers
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+  roles:
+    - role: kubeadm
+      tags: [kubeadm]

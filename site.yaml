@@ -1,50 +1,9 @@
 ---
-- name: All hosts playbook
-  hosts: all
-  become: true
-  pre_tasks:
-    - name: Check if the master group has only one host
-      ansible.builtin.assert:
-        that: "groups['masters'] | length == 1"
-        msg: "The master group must have only one host"
-      when: inventory_hostname in groups['masters']
+- name: Import playbook_all
+  ansible.builtin.import_playbook: playbook_all.yaml
 
-    - name: Check if the worker group has at least one host
-      ansible.builtin.assert:
-        that: "groups['workers'] | length > 0"
-        msg: "The worker group must have at least one host"
-      when: inventory_hostname in groups['workers']
-  roles:
-    - role: containerd
-      tags: [containerd]
+- name: Import playbook_masters
+  ansible.builtin.import_playbook: playbook_masters.yaml
 
-    - role: kube_install
-      tags: [kube_install]
-
-- name: Master hosts playbook
-  hosts: masters
-  become: true
-  roles:
-    - role: kubeadm
-      tags: [kubeadm]
-
-    - role: kubectl
-      tags: [kubectl]
-
-    - role: k8s_network
-      tags: [network]
-
-    - role: argocd
-      tags: [argocd]
-      when: argocd_enabled | default(false) | bool
-
-    - role: metallb
-      tags: [metallb]
-      when: metallb_enabled | default(false) | bool
-
-- name: Workers hosts playbook
-  hosts: workers
-  become: true
-  roles:
-    - role: kubeadm
-      tags: [kubeadm]
+- name: Import playbook_workers
+  ansible.builtin.import_playbook: playbook_workers.yaml

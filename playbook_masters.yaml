@@ -1,0 +1,24 @@
+---
+- name: Master hosts playbook
+  hosts: masters
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+  roles:
+    - role: kubeadm
+      tags: [kubeadm]
+
+    - role: kubectl
+      tags: [kubectl]
+
+    - role: kube_network
+      tags: [kube_network]
+
+    - role: argocd
+      tags: [argocd]
+      when: argocd_enabled | default(false) | bool
+
+    - role: metallb
+      tags: [metallb]
+      when: metallb_enabled | default(false) | bool

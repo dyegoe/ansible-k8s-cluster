@@ -1,6 +1,0 @@
----
-k8s_network_cni: flannel
-k8s_network_flannel_version: v0.22.3
-k8s_network_flannel_url: https://github.com/flannel-io/flannel/releases/download/{{ k8s_network_flannel_version }}/kube-flannel.yml
-k8s_network_calico_version: v3.26.1
-k8s_network_calico_url: "https://raw.githubusercontent.com/projectcalico/calico/{{ k8s_network_calico_version }}/manifests/calico.yaml"
