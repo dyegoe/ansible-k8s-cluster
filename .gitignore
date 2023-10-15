@@ -1,2 +1,9 @@
+# Ignore local .vscode directory
+.vscode/
+
+# Ignore all inventories except example
 inventories/*
 !inventories/example
+
+# Ignore Ansible retries
+*.retry

@@ -1,0 +1,41 @@
+---
+- name: Download MetalLB
+  ansible.builtin.get_url:
+    url: "{{ metallb_url }}"
+    dest: /tmp/metallb.yaml
+    mode: '0664'
+
+- name: Apply MetalLB
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/metallb.yaml
+
+- name: Configure MetalLB IP Pool
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: metallb.io/v1beta1
+      kind: IPAddressPool
+      metadata:
+        name: "{{ metallb_name }}"
+        namespace: "{{ metallb_namespace }}"
+      spec:
+        addresses:
+          - "{{ metallb_ip_range }}"
+
+# - name: Configure MetalLB L2Advertisement
+#   kubernetes.core.k8s:
+#     state: present
+#     definition:
+#       apiVersion: metallb.io/v1beta1
+#       kind: L2Advertisement
+#       metadata:
+#         name: "{{ metallb_name }}"
+#         namespace: "{{ metallb_namespace }}"
+#       spec:
+#         ipaddresspools:
+#           - "{{ metallb_name }}"
+#         # nodeSelector:
+#         #   - kubernetes.io/hostname: node1
+#         interfaces:
+#           - "{{ metallb_interface }}"

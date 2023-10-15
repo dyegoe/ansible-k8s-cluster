@@ -11,7 +11,7 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
 
 1. Clone this repository
 2. Create a file called `hosts` or `hosts.yaml` under the `inventories/<some name>/` directory.
-3. Add the following content to the file:
+3. Add the following content to the file, and edit the values as needed:
 
     ```yaml
     all:
@@ -19,6 +19,8 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
         ansible_user: ubuntu
         kubernetes_cni: flannel
         kubernetes_argocd_install: true
+        metallb_enabled: true
+        metallb_ip_range: "10.100.200.80-10.100.200.89"
       children:
         masters:
           hosts:
