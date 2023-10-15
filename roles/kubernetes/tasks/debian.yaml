@@ -1,5 +1,5 @@
 ---
-- name: Install public signing key for Kubernetes
+- name: Install public signing key for Kubernetes repository
   ansible.builtin.apt_key:
     url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key"
     state: present
@@ -27,22 +27,3 @@
   loop:
     - kubeadm
     - kubelet
-
-- name: Run only on master nodes
-  when: "'masters' in group_names"
-  block:
-    - name: Install kubectl and python-kubernetes
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        state: present
-        update_cache: true
-      loop:
-        - kubectl
-        - python3-kubernetes
-
-    - name: Mark kubectl on hold
-      ansible.builtin.dpkg_selections:
-        name: "{{ item }}"
-        selection: hold
-      loop:
-        - kubectl

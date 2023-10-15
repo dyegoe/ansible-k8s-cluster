@@ -10,6 +10,13 @@
   hosts: masters
   become: true
   roles:
+    - role: kubectl
+      tags: [kubectl]
+
+    - role: argocd
+      tags: [argocd]
+      when: argocd_enabled | default(false) | bool
+
     - role: metallb
-      tags: metallb
+      tags: [metallb]
       when: metallb_enabled | default(false) | bool
