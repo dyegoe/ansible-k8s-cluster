@@ -1,7 +1,7 @@
 ---
 - name: Download calico
   ansible.builtin.get_url:
-    url: "{{ k8s_network_calico_url }}"
+    url: "{{ kube_network_calico_url }}"
     dest: /tmp/calico.yaml
     mode: '0664'
 

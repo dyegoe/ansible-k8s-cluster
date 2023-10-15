@@ -1,8 +1,8 @@
 ---
 - name: Install flannel CNI
   ansible.builtin.include_tasks: flannel.yaml
-  when: k8s_network_cni == 'flannel'
+  when: kube_network_cni == 'flannel'
 
 - name: Install calico CNI
   ansible.builtin.include_tasks: calico.yaml
-  when: k8s_network_cni == 'calico'
+  when: kube_network_cni == 'calico'
