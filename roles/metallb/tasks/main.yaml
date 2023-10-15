@@ -32,19 +32,21 @@
     path: "{{ metallb_temp_file }}"
     state: absent
 
-# - name: Configure MetalLB L2Advertisement
-#   kubernetes.core.k8s:
-#     state: present
-#     definition:
-#       apiVersion: metallb.io/v1beta1
-#       kind: L2Advertisement
-#       metadata:
-#         name: "{{ metallb_name }}"
-#         namespace: "{{ metallb_namespace }}"
-#       spec:
-#         ipaddresspools:
-#           - "{{ metallb_name }}"
-#         # nodeSelector:
-#         #   - kubernetes.io/hostname: node1
-#         interfaces:
-#           - "{{ metallb_interface }}"
+- name: Configure MetalLB L2Advertisement
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: metallb.io/v1beta1
+      kind: L2Advertisement
+      metadata:
+        name: "{{ metallb_name }}"
+        namespace: "{{ metallb_namespace }}"
+      spec:
+        ipaddresspools:
+          - "{{ metallb_name }}"
+        interfaces:
+          - "{{ metallb_interface }}"
+  register: metallb_l2advertisement_result
+  until: metallb_l2advertisement_result is success
+  retries: 5
+  delay: 20
