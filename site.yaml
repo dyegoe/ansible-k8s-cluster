@@ -1,12 +1,18 @@
 ---
-- name: Site Playbook
+- name: All hosts playbook
   hosts: all
   become: true
+  pre_tasks:
+    - name: Check if the master group has only one host
+      ansible.builtin.assert:
+        that: "groups['masters'] | length == 1"
+        msg: "The master group must have only one host"
+      when: inventory_hostname in groups['masters']
   roles:
     - role: containerd
     - role: kubernetes
 
-- name: Master specific tasks
+- name: Master hosts playbook
   hosts: masters
   become: true
   roles:
