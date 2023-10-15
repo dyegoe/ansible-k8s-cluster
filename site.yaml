@@ -13,6 +13,9 @@
     - role: kubectl
       tags: [kubectl]
 
+    - role: k8s_network
+      tags: [network]
+
     - role: argocd
       tags: [argocd]
       when: argocd_enabled | default(false) | bool
