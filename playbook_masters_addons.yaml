@@ -1,0 +1,15 @@
+---
+- name: Master hosts Addons playbook
+  hosts: masters
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+  roles:
+    - role: metallb
+      tags: [metallb]
+      when: metallb_enabled | default(false) | bool
+
+    - role: argocd
+      tags: [argocd]
+      when: argocd_enabled | default(false) | bool

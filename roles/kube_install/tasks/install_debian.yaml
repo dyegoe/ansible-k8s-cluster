@@ -1,0 +1,29 @@
+---
+- name: Install public signing key for Kubernetes repository
+  ansible.builtin.apt_key:
+    url: "https://pkgs.k8s.io/core:/stable:/v{{ kube_install_kubernetes_version }}/deb/Release.key"
+    state: present
+    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+- name: Add appropriate repository for Kubernetes
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kube_install_kubernetes_version }}/deb/ /"
+    state: present
+    filename: "kubernetes"
+
+- name: Install kubeadm and kubelet
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - kubeadm
+    - kubelet
+
+- name: Mark kubeadm and kubelet on hold
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubeadm
+    - kubelet

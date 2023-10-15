@@ -1,0 +1,16 @@
+---
+- name: Install kubectl and python-kubernetes
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - kubectl
+    - python3-kubernetes
+
+- name: Mark kubectl on hold
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubectl

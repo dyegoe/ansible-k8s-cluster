@@ -1,15 +1,12 @@
 ---
-- name: Site Playbook
-  hosts: all
-  become: true
-  roles:
-    - role: containerd
-    - role: kubernetes
+- name: Import playbook_all
+  ansible.builtin.import_playbook: playbook_all.yaml
 
-- name: Master specific tasks
-  hosts: masters
-  become: true
-  roles:
-    - role: metallb
-      tags: metallb
-      when: metallb_enabled | default(false) | bool
+- name: Import playbook_masters
+  ansible.builtin.import_playbook: playbook_masters.yaml
+
+- name: Import playbook_workers
+  ansible.builtin.import_playbook: playbook_workers.yaml
+
+- name: Import playbook_masters_addons
+  ansible.builtin.import_playbook: playbook_masters_addons.yaml

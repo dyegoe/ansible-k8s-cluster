@@ -2,10 +2,9 @@
 extends: default
 rules:
   line-length:
-    max: 140
+    max: 155
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: true
   truthy:
     ignore:
       - .github/workflows/*.yaml
-      - .github/workflows/*.yml

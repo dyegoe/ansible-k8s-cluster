@@ -1,0 +1,26 @@
+---
+- name: Read vars from file
+  ansible.builtin.include_vars:
+    file: "{{ kubeadm_join_command_file }}"
+
+- name: Wait for master to be ready from nodes
+  ansible.builtin.wait_for:
+    host: "{{ kubeadm_master_host }}"
+    port: 6443
+    delay: 10
+    timeout: 300
+    state: started
+
+- name: Join nodes to cluster
+  ansible.builtin.command:
+    cmd: "{{ kubeadm_join_command }}"
+    creates: /etc/kubernetes/kubelet.conf
+  register: kubeadm_join_node_command_raw
+  failed_when: kubeadm_join_node_command_raw.rc not in [0, 2]
+  changed_when: kubeadm_join_node_command_raw.stdout.find('This node has joined the cluster') != -1
+
+- name: Purge join command temp file
+  ansible.builtin.file:
+    path: "{{ kubeadm_join_command_file }}"
+    state: absent
+  changed_when: false

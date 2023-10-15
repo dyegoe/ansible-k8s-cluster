@@ -1,0 +1,16 @@
+---
+- name: Master hosts playbook
+  hosts: masters
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+  roles:
+    - role: kubeadm
+      tags: [kubeadm]
+
+    - role: kubectl
+      tags: [kubectl]
+
+    - role: kube_network
+      tags: [kube_network]

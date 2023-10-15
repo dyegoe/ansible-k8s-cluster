@@ -1,0 +1,7 @@
+---
+kube_network_cni: flannel
+kube_network_temp_file: /tmp/kube_network_temp_file
+kube_network_flannel_version: v0.22.3
+kube_network_flannel_url: https://github.com/flannel-io/flannel/releases/download/{{ kube_network_flannel_version }}/kube-flannel.yml
+kube_network_calico_version: v3.26.1
+kube_network_calico_url: "https://raw.githubusercontent.com/projectcalico/calico/{{ kube_network_calico_version }}/manifests/calico.yaml"

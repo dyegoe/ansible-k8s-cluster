@@ -1,0 +1,16 @@
+---
+- name: Download Flannel
+  ansible.builtin.get_url:
+    url: "{{ kube_network_flannel_url }}"
+    dest: "{{ kube_network_temp_file }}"
+    mode: '0664'
+
+- name: Apply Flannel
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ kube_network_temp_file }}"
+
+- name: Purge Flannel temp file
+  ansible.builtin.file:
+    path: "{{ kube_network_temp_file }}"
+    state: absent

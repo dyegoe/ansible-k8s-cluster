@@ -1,0 +1,16 @@
+---
+- name: Download Calico
+  ansible.builtin.get_url:
+    url: "{{ kube_network_calico_url }}"
+    dest: "{{ kube_network_temp_file }}"
+    mode: '0664'
+
+- name: Apply Calico
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ kube_network_temp_file }}"
+
+- name: Purge Calico temp file
+  ansible.builtin.file:
+    path: "{{ kube_network_temp_file }}"
+    state: absent
