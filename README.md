@@ -20,7 +20,7 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
         kubernetes_cni: flannel
         kubernetes_argocd_install: true
         metallb_enabled: true
-        metallb_ip_range: "10.100.200.80-10.100.200.89"
+        metallb_ip_pool: "10.100.200.80-10.100.200.89"
       children:
         masters:
           hosts:

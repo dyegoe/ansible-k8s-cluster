@@ -2,13 +2,13 @@
 - name: Download MetalLB
   ansible.builtin.get_url:
     url: "{{ metallb_url }}"
-    dest: /tmp/metallb.yaml
+    dest: "{{ metallb_temp_file }}"
     mode: '0664'
 
 - name: Apply MetalLB
   kubernetes.core.k8s:
     state: present
-    src: /tmp/metallb.yaml
+    src: "{{ metallb_temp_file }}"
 
 - name: Configure MetalLB IP Pool
   kubernetes.core.k8s:
@@ -21,7 +21,16 @@
         namespace: "{{ metallb_namespace }}"
       spec:
         addresses:
-          - "{{ metallb_ip_range }}"
+          - "{{ metallb_ip_pool }}"
+  register: metallb_ip_pool_result
+  until: metallb_ip_pool_result is success
+  retries: 5
+  delay: 20
+
+- name: Purge MetalLB temporary file
+  ansible.builtin.file:
+    path: "{{ metallb_temp_file }}"
+    state: absent
 
 # - name: Configure MetalLB L2Advertisement
 #   kubernetes.core.k8s:

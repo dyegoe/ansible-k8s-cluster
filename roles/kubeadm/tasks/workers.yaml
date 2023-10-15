@@ -18,3 +18,9 @@
   register: kubeadm_join_node_command_raw
   failed_when: kubeadm_join_node_command_raw.rc not in [0, 2]
   changed_when: kubeadm_join_node_command_raw.stdout.find('This node has joined the cluster') != -1
+
+- name: Purge join command temp file
+  ansible.builtin.file:
+    path: "{{ kubeadm_join_command_file }}"
+    state: absent
+  changed_when: false

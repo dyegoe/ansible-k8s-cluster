@@ -8,13 +8,13 @@
 - name: Download ArgoCD
   ansible.builtin.get_url:
     url: "{{ argocd_url }}"
-    dest: /tmp/argocd.yaml
+    dest: "{{ argocd_temp_file }}"
     mode: '0664'
 
 - name: Apply ArgoCD
   kubernetes.core.k8s:
     state: present
-    src: /tmp/argocd.yaml
+    src: "{{ argocd_temp_file }}"
     namespace: argocd
 
 - name: Install ArgoCD cli
@@ -22,3 +22,8 @@
     url: "{{ argocd_cli_url }}"
     dest: /usr/local/bin/argocd
     mode: '0555'
+
+- name: Purge ArgoCD temp file
+  ansible.builtin.file:
+    path: "{{ argocd_temp_file }}"
+    state: absent
