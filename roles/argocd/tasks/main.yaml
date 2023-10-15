@@ -1,0 +1,24 @@
+---
+- name: Create ArgoCD namespace
+  kubernetes.core.k8s:
+    state: present
+    name: argocd
+    kind: Namespace
+
+- name: Download ArgoCD
+  ansible.builtin.get_url:
+    url: "{{ argocd_url }}"
+    dest: /tmp/argocd.yaml
+    mode: '0664'
+
+- name: Apply ArgoCD
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/argocd.yaml
+    namespace: argocd
+
+- name: Install ArgoCD binary
+  ansible.builtin.get_url:
+    url: "{{ argocd_binary_url }}"
+    dest: /usr/local/bin/argocd
+    mode: '0555'
