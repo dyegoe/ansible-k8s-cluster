@@ -54,6 +54,7 @@
     name: cilium
     url: "{{ kube_network_cilium_helm_repo }}"
 
+# Reference of values: https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml
 - name: Install Cilium Helm chart
   kubernetes.core.helm:
     name: cilium
@@ -61,8 +62,8 @@
     chart_version: "{{ kube_network_cilium_version }}"
     release_namespace: kube-system
     values:
-      kubeProxyReplacement: strict
-      hubble.ui.enabled: true
-      hubble.relay.enabled: true
-      hubble.metrics.enabled: ”{dns:query;ignoreAAAA,drop,tcp,flow,icmp,http}”
-      envoy.enabled: true
+      envoy:
+        enabled: "{{ kube_network_cilium_envoy_enabled }}"
+      hubble:
+        ui:
+          enabled: "{{ kube_network_cilium_hubble_ui_enabled }}"

@@ -7,3 +7,5 @@ kube_network_cilium_cli_sha256_url: "https://github.com/cilium/cilium-cli/releas
 kube_network_cilium_cli_temp_file: "cilium-{{ kube_network_cilium_cli_version }}-linux-{{ arch }}.tar.gz"
 kube_network_cilium_cli_bin_path: "/usr/local/bin/cilium"
 kube_network_cilium_cli_bash_completion_path: "/etc/bash_completion.d/cilium"
+kube_network_cilium_envoy_enabled: false
+kube_network_cilium_hubble_ui_enabled: false

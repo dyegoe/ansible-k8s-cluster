@@ -17,21 +17,22 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
     all:
       vars:
         ansible_user: ubuntu
-        kubernetes_cni: flannel
-        kubernetes_argocd_install: true
+        kube_network_cni: flannel
+        argocd_enabled: true
         metallb_enabled: true
         metallb_ip_pool: "10.100.200.80-10.100.200.89"
+        metallb_interface: "ens3"
       children:
         masters:
           hosts:
             master:
-              ansible_host: 10.100.200.2
-        nodes:
+              ansible_host: 10.100.200.10
+        workers:
           hosts:
-            node01:
-              ansible_host: 10.100.200.3
-            node02:
-              ansible_host: 10.100.200.4
+            node1:
+              ansible_host: 10.100.200.11
+            node2:
+              ansible_host: 10.100.200.12
     ```
 
 4. Run the following command:
