@@ -35,4 +35,5 @@
     dest: "{{ kubeadm_join_command_file }}"
     mode: '0644'
   delegate_to: localhost
+  changed_when: false
   become: false

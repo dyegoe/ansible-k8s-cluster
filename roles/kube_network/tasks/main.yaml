@@ -1,4 +1,10 @@
 ---
+- name: Create a temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+  register: kube_network_temp_dir
+  changed_when: false
+
 - name: Install flannel CNI
   ansible.builtin.include_tasks: flannel.yaml
   when: kube_network_cni == 'flannel'
@@ -6,3 +12,13 @@
 - name: Install calico CNI
   ansible.builtin.include_tasks: calico.yaml
   when: kube_network_cni == 'calico'
+
+- name: Install cilium CNI
+  ansible.builtin.include_tasks: cilium.yaml
+  when: kube_network_cni == 'cilium'
+
+- name: Remove temporary files
+  ansible.builtin.file:
+    path: "{{ kube_network_temp_dir.path }}"
+    state: absent
+  changed_when: false

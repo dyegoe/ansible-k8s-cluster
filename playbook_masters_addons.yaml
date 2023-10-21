@@ -5,6 +5,7 @@
   pre_tasks:
     - name: Include sanity check
       ansible.builtin.include_tasks: sanity_check.yaml
+      tags: [always]
   roles:
     - role: metallb
       tags: [metallb]

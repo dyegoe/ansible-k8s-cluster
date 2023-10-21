@@ -1,0 +1,2 @@
+---
+kube_network_cni: flannel

@@ -1,0 +1,69 @@
+---
+- name: Download Cilium CLI
+  ansible.builtin.get_url:
+    url: "{{ kube_network_cilium_cli_url }}"
+    dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}"
+    mode: '0555'
+  changed_when: false
+
+- name: Download Cilium CLI checksum
+  ansible.builtin.get_url:
+    url: "{{ kube_network_cilium_cli_sha256_url }}"
+    dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}.sha256"
+    mode: '0555'
+  changed_when: false
+
+- name: Use sha256 to calculate the checksum
+  ansible.builtin.stat:
+    path: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}"
+    checksum_algorithm: sha256
+  register: kube_network_cilium_cli_sha256_stat
+
+- name: Get the checksum from the file
+  ansible.builtin.slurp:
+    path: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}.sha256"
+  register: kube_network_cilium_cli_sha256_slurp
+
+- name: Check if the checksum is correct
+  ansible.builtin.fail:
+    msg: "Checksum of {{ kube_network_cilium_cli_temp_file }} is not correct"
+  when: kube_network_cilium_cli_sha256_stat.stat.checksum != kube_network_cilium_cli_sha256_slurp.content | b64decode | split(' ') | first
+
+- name: Uncompress Cilium CLI
+  ansible.builtin.unarchive:
+    src: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}"
+    dest: "{{ kube_network_temp_dir.path }}"
+    remote_src: true
+    mode: '0555'
+  changed_when: false
+
+- name: Move Cilium CLI to bin path
+  ansible.builtin.copy:
+    src: "{{ kube_network_temp_dir.path }}/cilium"
+    dest: "{{ kube_network_cilium_cli_bin_path }}"
+    remote_src: true
+    mode: '0555'
+
+- name: Install Helm bash completion
+  ansible.builtin.shell:
+    cmd: "{{ kube_network_cilium_cli_bin_path }} completion bash > {{ kube_network_cilium_cli_bash_completion_path }}"
+    creates: "{{ kube_network_cilium_cli_bash_completion_path }}"
+
+- name: Add Cilium Helm repository
+  kubernetes.core.helm_repository:
+    name: cilium
+    url: "{{ kube_network_cilium_helm_repo }}"
+
+# Reference of values: https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml
+- name: Install Cilium Helm chart
+  kubernetes.core.helm:
+    name: cilium
+    chart_ref: cilium/cilium
+    chart_version: "{{ kube_network_cilium_version }}"
+    release_namespace: kube-system
+    values:
+      envoy:
+        enabled: "{{ kube_network_cilium_envoy_enabled }}"
+      hubble:
+        ui:
+          enabled: "{{ kube_network_cilium_hubble_ui_enabled }}"

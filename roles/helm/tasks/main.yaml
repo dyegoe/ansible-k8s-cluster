@@ -1,0 +1,49 @@
+---
+- name: Create a temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+  register: helm_temp_dir
+  changed_when: false
+
+- name: Download Helm CLI
+  ansible.builtin.get_url:
+    url: "{{ helm_url }}"
+    dest: "{{ helm_temp_dir.path }}/{{ helm_temp_file }}"
+    mode: '0555'
+  changed_when: false
+
+- name: Uncompress Helm CLI
+  ansible.builtin.unarchive:
+    src: "{{ helm_temp_dir.path }}/{{ helm_temp_file }}"
+    dest: "{{ helm_temp_dir.path }}"
+    remote_src: true
+    mode: '0555'
+  changed_when: false
+
+- name: Move Helm CLI to bin path
+  ansible.builtin.copy:
+    src: "{{ helm_temp_dir.path }}/linux-amd64/helm"
+    dest: "{{ helm_bin_path }}"
+    remote_src: true
+    mode: '0555'
+
+- name: Install Helm bash completion
+  ansible.builtin.shell:
+    cmd: "{{ helm_bin_path }} completion bash > {{ helm_bash_completion_path }}"
+    creates: "{{ helm_bash_completion_path }}"
+
+- name: Install Helm plugins
+  kubernetes.core.helm_plugin:
+    plugin_version: "{{ item.value.version }}"
+    plugin_path: "{{ item.value.path }}"
+    state: present
+  loop: "{{ helm_plugins | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: helm_plugins is defined
+
+- name: Remove temporary files
+  ansible.builtin.file:
+    path: "{{ helm_temp_dir.path }}"
+    state: absent
+  changed_when: false

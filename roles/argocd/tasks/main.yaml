@@ -1,32 +1,47 @@
 ---
+- name: Create a temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+  register: argocd_temp_dir
+  changed_when: false
+
 - name: Create ArgoCD namespace
   kubernetes.core.k8s:
     state: present
     name: "{{ argocd_namespace }}"
     kind: Namespace
 
-- name: Download ArgoCD
+- name: Download ArgoCD manifests
   ansible.builtin.get_url:
     url: "{{ argocd_url }}"
-    dest: "{{ argocd_temp_file }}"
+    dest: "{{ argocd_temp_dir.path }}/argocd.yaml"
     mode: '0664'
+  changed_when: false
 
-- name: Apply ArgoCD
+- name: Apply ArgoCD manifests
   kubernetes.core.k8s:
     state: present
-    src: "{{ argocd_temp_file }}"
+    src: "{{ argocd_temp_dir.path }}/argocd.yaml"
     namespace: "{{ argocd_namespace }}"
 
-- name: Install ArgoCD cli
+- name: Download ArgoCD CLI
   ansible.builtin.get_url:
     url: "{{ argocd_cli_url }}"
-    dest: /usr/local/bin/argocd
+    dest: "{{ argocd_temp_dir.path }}/argocd"
     mode: '0555'
 
-- name: Purge ArgoCD temp file
+- name: Move ArgoCD CLI to bin path
+  ansible.builtin.copy:
+    src: "{{ argocd_temp_dir.path }}/argocd"
+    dest: "{{ argocd_cli_bin_path }}"
+    remote_src: true
+    mode: '0555'
+
+- name: Remove temporary files
   ansible.builtin.file:
-    path: "{{ argocd_temp_file }}"
+    path: "{{ argocd_temp_dir.path }}"
     state: absent
+  changed_when: false
 
 - name: Patch service if MetalLB is enabled
   kubernetes.core.k8s:
