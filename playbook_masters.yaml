@@ -12,5 +12,8 @@
     - role: kubectl
       tags: [kubectl]
 
+    - role: helm
+      tags: [helm]
+
     - role: kube_network
       tags: [kube_network]
