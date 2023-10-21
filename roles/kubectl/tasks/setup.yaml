@@ -27,14 +27,10 @@
     flat: true
     mode: '0600'
 
-- name: Add kubectl autocomplete to bashrc using lineinfile
-  ansible.builtin.lineinfile:
-    path: ~/.bashrc
-    line: "source <(kubectl completion bash)"
-    create: true
-    mode: '0600'
-    insertafter: EOF
-    state: present
+- name: Install Kubectl bash completion
+  ansible.builtin.shell:
+    cmd: "kubectl completion bash > {{ kubectl_bash_completion_path }}"
+    creates: "{{ kubectl_bash_completion_path }}"
 
 - name: Add kubectl alias to bashrc using lineinfile
   ansible.builtin.lineinfile:
