@@ -54,7 +54,6 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
   - [Calico](https://www.projectcalico.org/)
   - [Cilium](https://cilium.io/)
 - [MetalLB](https://metallb.universe.tf/) (not enabled by default)
-- [Traefik](https://traefik.io/traefik/) (not yet implemented)
 
 ## Addons
 
