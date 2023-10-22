@@ -42,7 +42,7 @@
         name: "{{ metallb_name }}"
         namespace: "{{ metallb_namespace }}"
       spec:
-        ipaddresspools:
+        ipAddressPools:
           - "{{ metallb_name }}"
         interfaces:
           - "{{ metallb_interface }}"
