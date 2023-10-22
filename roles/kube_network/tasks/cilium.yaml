@@ -44,7 +44,7 @@
     remote_src: true
     mode: '0555'
 
-- name: Install Helm bash completion
+- name: Install Cilium bash completion
   ansible.builtin.shell:
     cmd: "{{ kube_network_cilium_cli_bin_path }} completion bash > {{ kube_network_cilium_cli_bash_completion_path }}"
     creates: "{{ kube_network_cilium_cli_bash_completion_path }}"
