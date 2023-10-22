@@ -8,3 +8,6 @@ rules:
   truthy:
     ignore:
       - .github/workflows/*.yaml
+  quoted-strings:
+    quote-type: double
+    required: only-when-needed
