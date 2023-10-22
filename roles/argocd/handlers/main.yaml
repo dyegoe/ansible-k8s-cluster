@@ -1,0 +1,13 @@
+---
+- name: Restart ArgoCD repo-server
+  kubernetes.core.k8s:
+    state: patched
+    kind: Deployment
+    name: argocd-repo-server
+    namespace: "{{ argocd_namespace }}"
+    definition:
+      spec:
+        template:
+          metadata:
+            annotations:
+              kubectl.kubernetes.io/restartedAt: "{{ now(fmt='%Y-%m-%dT%H:%M:%SZ') }}"
