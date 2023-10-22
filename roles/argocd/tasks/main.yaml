@@ -29,6 +29,7 @@
     url: "{{ argocd_cli_url }}"
     dest: "{{ argocd_temp_dir.path }}/argocd"
     mode: '0555'
+  changed_when: false
 
 - name: Move ArgoCD CLI to bin path
   ansible.builtin.copy:
@@ -42,6 +43,7 @@
     src: main-app.yaml.j2
     dest: "{{ argocd_temp_dir.path }}/main-app.yaml"
     mode: '0555'
+  changed_when: false
 
 - name: Create main app
   kubernetes.core.k8s:
