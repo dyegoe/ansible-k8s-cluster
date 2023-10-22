@@ -33,6 +33,7 @@
     definition:
       data:
         timeout.reconciliation: "{{ argocd_timeout_reconciliation }}"
+        application.resourceTrackingMethod: annotation
   notify: Restart ArgoCD repo-server
 
 - name: Download ArgoCD CLI
