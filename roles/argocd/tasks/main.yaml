@@ -45,7 +45,7 @@
         template:
           metadata:
             annotations:
-              kubectl.kubernetes.io/restartedAt: '{{ now(fmt="%Y-%m-%dT%H:%M:%SZ") }}"'
+              kubectl.kubernetes.io/restartedAt: "{{ now(fmt='%Y-%m-%dT%H:%M:%SZ') }}"
 
 - name: Download ArgoCD CLI
   ansible.builtin.get_url:
