@@ -1,3 +1,5 @@
 ---
+kubeadm_cluster_name: "{{ cluster_name | default('kubernetes') }}"
+kubeadm_skip_kubeproxy: false
 kubeadm_pod_subnet: 10.244.0.0/16
 kubeadm_join_command_file: /tmp/kubeadm_join_command.yaml

@@ -1,8 +1,16 @@
 ---
-kind: ClusterConfiguration
 apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+clusterName: {{ kubeadm_cluster_name }}
 networking:
   podSubnet: {{ kubeadm_pod_subnet }}
+{%if kubeadm_skip_kubeproxy %}
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+skipPhases:
+  - addon/kube-proxy
+{%endif%}
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
