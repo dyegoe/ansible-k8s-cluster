@@ -7,6 +7,13 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
 - Ansible 2.14.10
 - Ubuntu 22.04
 
+## Good to know
+
+- You may specify a `ansible_user` that matches the user on the remote host.
+- If `cluster_name` is not set, `kubernetes` is used as the default cluster name.
+- The `kube_network_cni` variable is set to `flannel` by default. If you want to use a different CNI, you can set the `kube_network_cni` variable in the `inventories/<some name>/group_vars/all.yaml` file.
+- Set `kubeadm_skip_kubeproxy` to `true` and set `kube_network_cilium_kubeproxy_replacement` to `true` if you want to use Cilium kube-proxy replacement. Refer to the [Cilium documentation](https://docs.cilium.io/en/latest/network/kubernetes/kubeproxy-free/#kubeproxy-free) for more information.
+
 ## Usage
 
 1. Clone this repository
