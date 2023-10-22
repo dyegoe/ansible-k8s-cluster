@@ -2,12 +2,12 @@
 kind: ClusterConfiguration
 apiVersion: kubeadm.k8s.io/v1beta3
 networking:
-  podSubnet: "{{ kubeadm_pod_subnet }}"
+  podSubnet: {{ kubeadm_pod_subnet }}
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
-runtimeRequestTimeout: "15m"
-cgroupDriver: "systemd"
+runtimeRequestTimeout: 15m
+cgroupDriver: systemd
 systemReserved:
   cpu: 100m
   memory: 350M
