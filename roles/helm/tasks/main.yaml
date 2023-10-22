@@ -9,7 +9,7 @@
   ansible.builtin.get_url:
     url: "{{ helm_url }}"
     dest: "{{ helm_temp_dir.path }}/{{ helm_temp_file }}"
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Uncompress Helm CLI
@@ -17,7 +17,7 @@
     src: "{{ helm_temp_dir.path }}/{{ helm_temp_file }}"
     dest: "{{ helm_temp_dir.path }}"
     remote_src: true
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Move Helm CLI to bin path
@@ -25,7 +25,7 @@
     src: "{{ helm_temp_dir.path }}/linux-amd64/helm"
     dest: "{{ helm_bin_path }}"
     remote_src: true
-    mode: '0555'
+    mode: "0555"
 
 - name: Install Helm bash completion
   ansible.builtin.shell:

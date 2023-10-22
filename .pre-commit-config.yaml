@@ -16,7 +16,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
         # exclude json files
-        exclude: '\.json$'
+        exclude: \.json$
       - id: mixed-line-ending
   - repo: https://github.com/ansible/ansible-lint
     rev: v6.20.3

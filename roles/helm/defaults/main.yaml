@@ -1,10 +1,10 @@
 ---
 helm_version: v3.13.1
-helm_url: "https://get.helm.sh/helm-{{ helm_version }}-linux-{{ arch }}.tar.gz"
-helm_temp_file: "helm-{{ helm_version }}-linux-{{ arch }}.tar.gz"
-helm_bin_path: "/usr/local/bin/helm"
-helm_bash_completion_path: "/etc/bash_completion.d/helm"
+helm_url: https://get.helm.sh/helm-{{ helm_version }}-linux-{{ arch }}.tar.gz
+helm_temp_file: helm-{{ helm_version }}-linux-{{ arch }}.tar.gz
+helm_bin_path: /usr/local/bin/helm
+helm_bash_completion_path: /etc/bash_completion.d/helm
 helm_plugins:
   diff:
     version: v3.8.1
-    path: "https://github.com/databus23/helm-diff"
+    path: https://github.com/databus23/helm-diff

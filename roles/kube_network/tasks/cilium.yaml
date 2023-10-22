@@ -3,14 +3,14 @@
   ansible.builtin.get_url:
     url: "{{ kube_network_cilium_cli_url }}"
     dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}"
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Download Cilium CLI checksum
   ansible.builtin.get_url:
     url: "{{ kube_network_cilium_cli_sha256_url }}"
     dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}.sha256"
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Use sha256 to calculate the checksum
@@ -26,7 +26,7 @@
 
 - name: Check if the checksum is correct
   ansible.builtin.fail:
-    msg: "Checksum of {{ kube_network_cilium_cli_temp_file }} is not correct"
+    msg: Checksum of {{ kube_network_cilium_cli_temp_file }} is not correct
   when: kube_network_cilium_cli_sha256_stat.stat.checksum != kube_network_cilium_cli_sha256_slurp.content | b64decode | split(' ') | first
 
 - name: Uncompress Cilium CLI
@@ -34,7 +34,7 @@
     src: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_cli_temp_file }}"
     dest: "{{ kube_network_temp_dir.path }}"
     remote_src: true
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Move Cilium CLI to bin path
@@ -42,7 +42,7 @@
     src: "{{ kube_network_temp_dir.path }}/cilium"
     dest: "{{ kube_network_cilium_cli_bin_path }}"
     remote_src: true
-    mode: '0555'
+    mode: "0555"
 
 - name: Install Cilium bash completion
   ansible.builtin.shell:

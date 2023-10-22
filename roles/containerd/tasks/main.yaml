@@ -17,14 +17,14 @@
 
 - name: Populate containerd config with default values
   ansible.builtin.shell:
-    cmd: "containerd config default > {{ containerd_config }}"
+    cmd: containerd config default > {{ containerd_config }}
   changed_when: false
 
 - name: Configure cgroup driver to systemd in containerd config
   ansible.builtin.lineinfile:
     path: "{{ containerd_config }}"
-    regexp: '^( {1,}SystemdCgroup =).*$'
-    line: '\1 true'
+    regexp: ^( {1,}SystemdCgroup =).*$
+    line: \1 true
     backrefs: true
   notify: Restart containerd
   changed_when: false
@@ -32,8 +32,8 @@
 - name: Change sandbox image in containerd config
   ansible.builtin.lineinfile:
     path: "{{ containerd_config }}"
-    regexp: '^( {1,}sandbox_image =).*$'
-    line: '\1 "{{ containerd_sandbox_image }}"'
+    regexp: ^( {1,}sandbox_image =).*$
+    line: \1 "{{ containerd_sandbox_image }}"
     backrefs: true
   notify: Restart containerd
   changed_when: false

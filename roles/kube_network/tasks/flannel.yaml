@@ -3,7 +3,7 @@
   ansible.builtin.get_url:
     url: "{{ kube_network_flannel_url }}"
     dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_flannel_temp_file }}"
-    mode: '0555'
+    mode: "0555"
 
 - name: Apply Flannel manifest
   kubernetes.core.k8s:
