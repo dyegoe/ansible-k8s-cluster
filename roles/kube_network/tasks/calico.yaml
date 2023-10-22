@@ -3,7 +3,7 @@
   ansible.builtin.get_url:
     url: "{{ kube_network_calico_url }}"
     dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_calico_temp_file }}"
-    mode: '0555'
+    mode: "0555"
 
 - name: Apply Calico manifest
   kubernetes.core.k8s:

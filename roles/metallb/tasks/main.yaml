@@ -3,7 +3,7 @@
   ansible.builtin.get_url:
     url: "{{ metallb_url }}"
     dest: "{{ metallb_temp_file }}"
-    mode: '0664'
+    mode: "0664"
 
 - name: Apply MetalLB
   kubernetes.core.k8s:

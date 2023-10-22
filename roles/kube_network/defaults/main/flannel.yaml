@@ -1,4 +1,4 @@
 ---
 kube_network_flannel_version: v0.22.3
 kube_network_flannel_url: https://github.com/flannel-io/flannel/releases/download/{{ kube_network_flannel_version }}/kube-flannel.yml
-kube_network_flannel_temp_file: "kube-flannel-{{ kube_network_flannel_version }}.yml"
+kube_network_flannel_temp_file: kube-flannel-{{ kube_network_flannel_version }}.yml

@@ -5,7 +5,7 @@
     dest: /etc/kubernetes/kubeadm-config.yaml
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: Initialize Kubernetes Cluster
   ansible.builtin.command:
@@ -33,7 +33,7 @@
   ansible.builtin.template:
     src: kubeadm_join_command.yaml.j2
     dest: "{{ kubeadm_join_command_file }}"
-    mode: '0644'
+    mode: "0644"
   delegate_to: localhost
   changed_when: false
   become: false

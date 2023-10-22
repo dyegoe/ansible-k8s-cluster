@@ -15,7 +15,7 @@
   ansible.builtin.get_url:
     url: "{{ argocd_url }}"
     dest: "{{ argocd_temp_dir.path }}/argocd.yaml"
-    mode: '0664'
+    mode: "0664"
   changed_when: false
 
 - name: Apply ArgoCD manifests
@@ -24,11 +24,22 @@
     src: "{{ argocd_temp_dir.path }}/argocd.yaml"
     namespace: "{{ argocd_namespace }}"
 
+- name: Patch ArgoCD configmap
+  kubernetes.core.k8s:
+    state: patched
+    kind: ConfigMap
+    name: argocd-cm
+    namespace: "{{ argocd_namespace }}"
+    definition:
+      data:
+        timeout.reconciliation: "{{ argocd_timeout_reconciliation }}"
+  notify: Restart ArgoCD repo-server
+
 - name: Download ArgoCD CLI
   ansible.builtin.get_url:
     url: "{{ argocd_cli_url }}"
     dest: "{{ argocd_temp_dir.path }}/argocd"
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Move ArgoCD CLI to bin path
@@ -36,13 +47,13 @@
     src: "{{ argocd_temp_dir.path }}/argocd"
     dest: "{{ argocd_cli_bin_path }}"
     remote_src: true
-    mode: '0555'
+    mode: "0555"
 
 - name: Copy main app template
   ansible.builtin.template:
     src: main-app.yaml.j2
     dest: "{{ argocd_temp_dir.path }}/main-app.yaml"
-    mode: '0555'
+    mode: "0555"
   changed_when: false
 
 - name: Create main app
@@ -55,3 +66,6 @@
     path: "{{ argocd_temp_dir.path }}"
     state: absent
   changed_when: false
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

@@ -1,4 +1,4 @@
 ---
 kube_network_calico_version: v3.26.1
-kube_network_calico_url: "https://raw.githubusercontent.com/projectcalico/calico/{{ kube_network_calico_version }}/manifests/calico.yaml"
-kube_network_calico_temp_file: "calico-{{ kube_network_calico_version }}.yaml"
+kube_network_calico_url: https://raw.githubusercontent.com/projectcalico/calico/{{ kube_network_calico_version }}/manifests/calico.yaml
+kube_network_calico_temp_file: calico-{{ kube_network_calico_version }}.yaml
