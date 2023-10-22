@@ -38,5 +38,13 @@
   notify: Restart containerd
   changed_when: false
 
+- name: Copy crictl.yaml
+  ansible.builtin.copy:
+    src: crictl.yaml
+    dest: /etc/crictl.yaml
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
