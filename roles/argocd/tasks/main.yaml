@@ -37,19 +37,19 @@
     remote_src: true
     mode: '0555'
 
+- name: Copy main app template
+  ansible.builtin.template:
+    src: main-app.yaml.j2
+    dest: "{{ argocd_temp_dir.path }}/main-app.yaml"
+    mode: '0555'
+
+- name: Create main app
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ argocd_temp_dir.path }}/main-app.yaml"
+
 - name: Remove temporary files
   ansible.builtin.file:
     path: "{{ argocd_temp_dir.path }}"
     state: absent
   changed_when: false
-
-- name: Patch service if MetalLB is enabled
-  kubernetes.core.k8s:
-    state: patched
-    kind: Service
-    name: argocd-server
-    namespace: "{{ argocd_namespace }}"
-    definition:
-      spec:
-        type: LoadBalancer
-  when: metallb_enabled | default(false) | bool
