@@ -1,8 +1,6 @@
 ---
 metallb_version: v0.13.11
-metallb_url: https://raw.githubusercontent.com/metallb/metallb/{{ metallb_version }}/config/manifests/metallb-native.yaml
-metallb_ip_pool: 10.100.200.80-10.100.200.89
-metallb_interface: eth0
-metallb_name: k8s
+metallb_helm_url: https://metallb.github.io/metallb
+metallb_ip_range: 10.100.200.80-10.100.200.89
+metallb_name: metallb
 metallb_namespace: metallb-system
-metallb_temp_file: /tmp/metallb.yaml
