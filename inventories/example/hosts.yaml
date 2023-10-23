@@ -3,10 +3,6 @@ all:
   vars:
     ansible_user: ubuntu
     kube_network_cni: flannel
-    argocd_enabled: true
-    metallb_enabled: true
-    metallb_ip_pool: 10.100.200.80-10.100.200.89
-    metallb_interface: ens3
   children:
     masters:
       hosts:
