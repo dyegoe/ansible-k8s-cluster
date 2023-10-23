@@ -6,7 +6,6 @@
     kind: Namespace
     state: present
 
-
 - name: Install MetalLB
   kubernetes.core.helm:
     name: "{{ metallb_name }}"
