@@ -7,6 +7,10 @@
       ansible.builtin.include_tasks: sanity_check.yaml
       tags: [always]
   roles:
+    - role: kubeseal
+      tags: [kubeseal]
+      when: kubeseal_enabled | default(false) | bool
+
     - role: metallb
       tags: [metallb]
       when: metallb_enabled | default(false) | bool
