@@ -49,21 +49,20 @@
     cmd: "{{ kube_network_cilium_cli_bin_path }} completion bash > {{ kube_network_cilium_cli_bash_completion_path }}"
     creates: "{{ kube_network_cilium_cli_bash_completion_path }}"
 
-- name: Add Cilium Helm repository
-  kubernetes.core.helm_repository:
-    name: cilium
-    url: "{{ kube_network_cilium_helm_repo }}"
+- name: Template for Cilium Helm chart
+  ansible.builtin.template:
+    src: cilium-values.yaml.j2
+    dest: "{{ kube_network_temp_dir.path }}/cilium-values.yaml"
+    mode: "0555"
 
 # Reference of values: https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml
 - name: Install Cilium Helm chart
   kubernetes.core.helm:
     name: cilium
-    chart_ref: cilium/cilium
+    chart_ref: cilium
+    chart_repo_url: "{{ kube_network_cilium_helm_repo }}"
     chart_version: "{{ kube_network_cilium_version }}"
     release_namespace: kube-system
-    values:
-      envoy:
-        enabled: "{{ kube_network_cilium_envoy_enabled }}"
-      hubble:
-        ui:
-          enabled: "{{ kube_network_cilium_hubble_ui_enabled }}"
+    values_files:
+      - "{{ kube_network_temp_dir.path }}/cilium-values.yaml"
+    state: present

@@ -1,2 +1,7 @@
 ---
-kube_network_cni: flannel
+kube_network_cni: "{{ cluster_cni | default('flannel') }}"
+kube_network_cluster_name: "{{ cluster_name | default('cluster') }}"
+kube_network_cluster_domain: "{{ cluster_domain | default('local') }}"
+kube_network_service_subnet: "{{ cluster_service_subnet | default('10.96.0.0/12') }}"
+kube_network_pod_subnet: "{{ cluster_pod_subnet | default('10.244.0.0/16') }}"
+kube_network_dns_domain: "{{ kube_network_cluster_name }}.{{ kube_network_cluster_domain }}"

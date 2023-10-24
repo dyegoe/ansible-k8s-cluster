@@ -1,4 +1,5 @@
 ---
+argocd_enabled: false
 argocd_namespace: argocd
 argocd_url: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 argocd_cli_url: https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64

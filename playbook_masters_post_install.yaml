@@ -7,6 +7,14 @@
       ansible.builtin.include_tasks: sanity_check.yaml
       tags: [always]
   roles:
+    - name: Approve bootstrap certificate requests
+      role: kube_csr
+      tags: [kube_csr]
+
+    - role: kubeseal
+      tags: [kubeseal]
+      when: kubeseal_enabled | default(false) | bool
+
     - role: metallb
       tags: [metallb]
       when: metallb_enabled | default(false) | bool
