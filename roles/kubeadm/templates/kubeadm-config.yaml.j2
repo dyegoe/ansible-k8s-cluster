@@ -3,7 +3,9 @@ apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 clusterName: {{ kubeadm_cluster_name }}
 networking:
+  serviceSubnet: {{ kubeadm_service_subnet }}
   podSubnet: {{ kubeadm_pod_subnet }}
+  dnsDomain: {{ kubeadm_dns_domain }}
 {%if kubeadm_skip_kubeproxy %}
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
@@ -12,8 +14,9 @@ skipPhases:
   - addon/kube-proxy
 {%endif%}
 ---
-kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+serverTLSBootstrap: true
 runtimeRequestTimeout: 15m
 cgroupDriver: systemd
 systemReserved:
