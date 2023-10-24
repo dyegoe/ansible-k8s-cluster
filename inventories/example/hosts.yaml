@@ -2,7 +2,36 @@
 all:
   vars:
     ansible_user: ubuntu
-    kube_network_cni: flannel
+    cluster_name: k8s
+    cluster_domain: local
+    cluster_service_subnet: 10.96.0.0/12
+    cluster_pod_subnet: 10.244.0.0/16
+    cluster_cni: cilium
+    kubeadm_skip_kubeproxy: true
+    kube_network_cilium_kubeproxy_replacement: true
+    kube_network_cilium_ingress_enabled: true
+    kube_network_cilium_envoy_enabled: true
+    kube_network_cilium_hubble_enabled: true
+    kube_network_cilium_hubble_relay_enabled: true
+    kube_network_cilium_hubble_ui_enabled: true
+    argocd_enabled: true
+    argocd_timeout_reconciliation: 60s
+    argocd_main_app_name: argocd-apps
+    argocd_main_app_namespace: argocd
+    argocd_main_app_repo_url: https://gitlab.com/dyegoe/home-lab-argocd.git
+    argocd_main_app_repo_path: apps
+    argocd_main_app_repo_branch: main
+    argocd_main_app_repo_private: true
+    argocd_main_app_repo_username: dyegoe
+    argocd_main_app_repo_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36316435653536633966313639376635363539333834636438376630326430313133633462636165
+          3139323363636439343165323439363766306465663136370a373232343337636533386463323332
+          64333664623065386462633662333531303266396562383939353062623236653766616530306337
+          3530643232356133350a663866373536303337396630623636343038343333633264633764383735
+          66316435636135643536396662303362623935393337343464373234373861666265
+    argocd_main_app_destination_server: https://kubernetes.default.svc
+    argocd_main_app_destination_namespace: argocd
   children:
     masters:
       hosts:

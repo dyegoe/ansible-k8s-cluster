@@ -18,23 +18,30 @@
     mode: "0664"
   changed_when: false
 
+- name: Add data to configmap argocd-cm
+  ansible.builtin.lineinfile:
+    path: "{{ argocd_temp_dir.path }}/argocd.yaml"
+    insertafter: "^  name: argocd-cm$"
+    line: |
+      data:
+        timeout.reconciliation: "{{ argocd_timeout_reconciliation }}"
+        application.resourceTrackingMethod: annotation
+  changed_when: false
+
+- name: Add data to configmap argocd-cmd-params-cm
+  ansible.builtin.lineinfile:
+    path: "{{ argocd_temp_dir.path }}/argocd.yaml"
+    insertafter: "^  name: argocd-cmd-params-cm$"
+    line: |
+      data:
+        server.insecure: "true"
+  changed_when: false
+
 - name: Apply ArgoCD manifests
   kubernetes.core.k8s:
     state: present
     src: "{{ argocd_temp_dir.path }}/argocd.yaml"
     namespace: "{{ argocd_namespace }}"
-
-- name: Patch ArgoCD configmap
-  kubernetes.core.k8s:
-    state: patched
-    kind: ConfigMap
-    name: argocd-cm
-    namespace: "{{ argocd_namespace }}"
-    definition:
-      data:
-        timeout.reconciliation: "{{ argocd_timeout_reconciliation }}"
-        application.resourceTrackingMethod: annotation
-  notify: Restart ArgoCD repo-server
 
 - name: Download ArgoCD CLI
   ansible.builtin.get_url:
@@ -67,6 +74,3 @@
     path: "{{ argocd_temp_dir.path }}"
     state: absent
   changed_when: false
-
-- name: Flush handlers
-  ansible.builtin.meta: flush_handlers

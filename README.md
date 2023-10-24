@@ -120,5 +120,5 @@ ansible-vault encrypt_string --vault-password-file ~/.ansible-vault-pass.txt $(o
 When you run the playbook, you must provide the password file:
 
 ```bash
-ansible-playbook -i inventories/<some name>/hosts.yaml site.yaml --vault-password-file ~/.ansible-vault-pass.txt
+ansible-playbook --vault-password-file ~/.ansible-vault-pass.txt -i inventories/<some name>/hosts.yaml site.yaml
 ```
