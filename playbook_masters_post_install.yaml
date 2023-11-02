@@ -22,3 +22,11 @@
     - role: argocd
       tags: [argocd]
       when: argocd_enabled | default(false) | bool
+
+    - role: openebs
+      tags: [openebs]
+      when: openebs_enabled | default(false) | bool
+
+    - role: kube_dashboard
+      tags: [kube_dashboard]
+      when: kube_dashboard_enabled | default(false) | bool
