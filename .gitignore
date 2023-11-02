@@ -10,3 +10,5 @@ inventories/*
 
 # Ignore Secrets
 secrets.yaml
+
+.venv/*
