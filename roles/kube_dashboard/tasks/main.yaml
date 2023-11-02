@@ -1,0 +1,59 @@
+---
+- name: Create a temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+  register: kube_dashboard_temp_dir
+  changed_when: false
+
+- name: Download manifest
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "{{ kube_dashboard_temp_dir.path }}/{{ item.filename }}"
+    mode: "0555"
+  loop: "{{ kube_dashboard_manifests }}"
+  loop_control:
+    label: "{{ item.filename }}"
+
+- name: Apply manifests
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ kube_dashboard_temp_dir.path }}/{{ item.filename }}"
+    wait: true
+  loop: "{{ kube_dashboard_manifests }}"
+  loop_control:
+    label: "{{ item.filename }}"
+
+- name: Create admin service account
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: admin-user
+        namespace: "{{ kube_dashboard_namespace }}"
+  when: kube_dashboard_create_admin_service_account
+
+- name: Bind cluster role to the admin service account
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: admin-user
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - kind: ServiceAccount
+          name: admin-user
+          namespace: "{{ kube_dashboard_namespace }}"
+  when: kube_dashboard_create_admin_service_account
+
+- name: Remove temporary files
+  ansible.builtin.file:
+    path: "{{ kube_dashboard_temp_dir.path }}"
+    state: absent
+  changed_when: false

@@ -8,6 +8,8 @@ all:
     cluster_pod_subnet: 10.244.0.0/16
     cluster_cni: flannel
     openebs_enabled: true
+    kube_dashboard_enabled: true
+    kube_dashboard_create_admin_service_account: true
   children:
     masters:
       hosts:
