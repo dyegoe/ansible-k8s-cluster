@@ -9,3 +9,4 @@
   kubernetes.core.k8s:
     state: present
     src: "{{ kube_network_temp_dir.path }}/{{ kube_network_flannel_temp_file }}"
+    wait: true

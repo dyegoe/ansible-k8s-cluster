@@ -14,6 +14,7 @@
     chart_version: "{{ metallb_version }}"
     release_namespace: "{{ metallb_namespace }}"
     state: present
+    wait: true
 
 - name: Configure MetalLB IP Pool
   kubernetes.core.k8s:
@@ -27,6 +28,7 @@
       spec:
         addresses:
           - "{{ metallb_ip_range }}"
+    wait: true
   register: metallb_ip_range_result
   until: metallb_ip_range_result is success
   retries: 5
@@ -44,6 +46,7 @@
       spec:
         ipAddressPools:
           - "{{ metallb_name }}"
+    wait: true
   register: metallb_l2advertisement_result
   until: metallb_l2advertisement_result is success
   retries: 5

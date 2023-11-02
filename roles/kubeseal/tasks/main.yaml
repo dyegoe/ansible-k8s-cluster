@@ -13,6 +13,7 @@
     chart_version: "{{ kubeseal_version }}"
     release_namespace: "{{ kubeseal_namespace }}"
     state: present
+    wait: true
 
 - name: Download Kubeseal CLI
   ansible.builtin.get_url:

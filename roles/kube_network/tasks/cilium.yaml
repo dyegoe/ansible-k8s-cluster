@@ -66,3 +66,4 @@
     values_files:
       - "{{ kube_network_temp_dir.path }}/cilium-values.yaml"
     state: present
+    wait: true

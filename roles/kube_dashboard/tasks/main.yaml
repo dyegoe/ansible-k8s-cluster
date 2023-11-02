@@ -32,6 +32,7 @@
       metadata:
         name: admin-user
         namespace: "{{ kube_dashboard_namespace }}"
+    wait: true
   when: kube_dashboard_create_admin_service_account
 
 - name: Bind cluster role to the admin service account
@@ -50,6 +51,7 @@
         - kind: ServiceAccount
           name: admin-user
           namespace: "{{ kube_dashboard_namespace }}"
+    wait: true
   when: kube_dashboard_create_admin_service_account
 
 - name: Remove temporary files

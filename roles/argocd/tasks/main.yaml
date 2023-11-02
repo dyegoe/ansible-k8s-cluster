@@ -10,6 +10,7 @@
     state: present
     name: "{{ argocd_namespace }}"
     kind: Namespace
+    wait: true
 
 - name: Download ArgoCD manifests
   ansible.builtin.get_url:
@@ -42,6 +43,7 @@
     state: present
     src: "{{ argocd_temp_dir.path }}/argocd.yaml"
     namespace: "{{ argocd_namespace }}"
+    wait: true
 
 - name: Download ArgoCD CLI
   ansible.builtin.get_url:
@@ -68,6 +70,8 @@
   kubernetes.core.k8s:
     state: present
     src: "{{ argocd_temp_dir.path }}/main-app.yaml"
+    namespace: "{{ argocd_namespace }}"
+    wait: true
 
 - name: Remove temporary files
   ansible.builtin.file:
