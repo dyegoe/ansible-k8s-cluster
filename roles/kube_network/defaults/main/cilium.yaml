@@ -10,7 +10,13 @@ kube_network_cilium_cli_bash_completion_path: /etc/bash_completion.d/cilium
 kube_network_cilium_kubeproxy_replacement: false
 kube_network_cilium_ingress_enabled: false
 kube_network_cilium_ingress_loadbalancer_mode: dedicated
+kube_network_cilium_gateway_api_enabled: false
 kube_network_cilium_envoy_enabled: false
 kube_network_cilium_hubble_enabled: false
 kube_network_cilium_hubble_relay_enabled: false
 kube_network_cilium_hubble_ui_enabled: false
+kube_network_cilium_gateway_api_crds_urls:
+  - url: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+    name: standard
+  - url: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/experimental-install.yaml
+    name: experimental

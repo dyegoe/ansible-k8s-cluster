@@ -1,4 +1,40 @@
 ---
+- name: Check if Cilium ingress is enabled and kube-proxy is replaced
+  ansible.builtin.fail:
+    msg: |
+      When using Cilium ingress, kube-proxy must be replaced by Cilium.
+      Please set kube_network_cilium_ingress_enabled and kube_network_cilium_kubeproxy_replacement to true.
+      kube_network_cilium_gateway_api_enabled must be set to false.
+  when: kube_network_cilium_ingress_enabled and (not kube_network_cilium_kubeproxy_replacement or kube_network_cilium_gateway_api_enabled)
+
+- name: Check if Cilium gateway API is enabled and kube-proxy is replaced
+  ansible.builtin.fail:
+    msg: |
+      When using Cilium gateway API, kube-proxy must be replaced by Cilium.
+      Please set kube_network_cilium_gateway_api_enabled and kube_network_cilium_kubeproxy_replacement to true.
+      kube_network_cilium_ingress_enabled must be set to false.
+  when: kube_network_cilium_gateway_api_enabled and (not kube_network_cilium_kubeproxy_replacement or kube_network_cilium_ingress_enabled)
+
+- name: Download Gateway API CRDs
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "{{ kube_network_temp_dir.path }}/{{ item.name }}"
+    mode: "0555"
+  loop: "{{ kube_network_cilium_gateway_api_crds_urls }}"
+  loop_control:
+    label: "{{ item.name }}"
+  changed_when: false
+  when: kube_network_cilium_gateway_api_enabled
+
+- name: Apply Gateway API CRDs manifests
+  kubernetes.core.k8s:
+    src: "{{ kube_network_temp_dir.path }}/{{ item.name }}"
+    state: present
+  loop: "{{ kube_network_cilium_gateway_api_crds_urls }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: kube_network_cilium_gateway_api_enabled
+
 - name: Download Cilium CLI
   ansible.builtin.get_url:
     url: "{{ kube_network_cilium_cli_url }}"
