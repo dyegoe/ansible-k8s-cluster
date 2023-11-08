@@ -44,6 +44,8 @@
     src: "{{ argocd_temp_dir.path }}/argocd.yaml"
     namespace: "{{ argocd_namespace }}"
     wait: true
+    wait_sleep: 30
+    wait_timeout: 300
 
 - name: Download ArgoCD CLI
   ansible.builtin.get_url:
