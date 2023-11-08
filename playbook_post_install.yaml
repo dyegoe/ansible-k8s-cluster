@@ -1,5 +1,5 @@
 ---
-- name: Master hosts Addons playbook
+- name: Post Install components
   hosts: masters
   become: true
   pre_tasks:
@@ -7,6 +7,15 @@
       ansible.builtin.include_tasks: sanity_check.yaml
       tags: [always]
   roles:
+    - role: kubectl
+      tags: [kubectl]
+
+    - role: helm
+      tags: [helm]
+
+    - role: kube_network
+      tags: [kube_network]
+
     - name: Approve bootstrap certificate requests
       role: kube_csr
       tags: [kube_csr]

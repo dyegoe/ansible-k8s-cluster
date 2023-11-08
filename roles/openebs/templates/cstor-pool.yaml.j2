@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: "True" , trim_blocks: "True"
 ---
 apiVersion: cstor.openebs.io/v1
 kind: CStorPoolCluster
@@ -6,15 +7,23 @@ metadata:
   namespace: openebs
 spec:
   pools:
+{% set block_devices = {} %}
 {% for bd in block_device_info.resources %}
+  {% if block_devices[bd.spec.nodeAttributes.nodeName] is not defined %}
+    {% set _ = block_devices.update({bd.spec.nodeAttributes.nodeName: []}) %}
+  {% endif %}
+  {% set _ = block_devices[bd.spec.nodeAttributes.nodeName].append(bd.metadata.name) %}
+{% endfor %}
+{% for node in block_devices|sort %}
     - nodeSelector:
-        kubernetes.io/hostname: {{ bd.spec.nodeAttributes.nodeName }}
+        kubernetes.io/hostname: {{ node }}
+      poolConfig:
+        dataRaidGroupType: {{ openebs_dataraidgrouptype }}
       dataRaidGroups:
         - blockDevices:
-            - blockDeviceName: {{ bd.metadata.name }}
-      poolConfig:
-        dataRaidGroupType: stripe
-
+          {% for bd in block_devices[node] %}
+            - blockDeviceName: {{ bd }}
+          {% endfor %}
 {% endfor %}
 ---
 kind: StorageClass
@@ -26,4 +35,4 @@ allowVolumeExpansion: true
 parameters:
   cas-type: cstor
   cstorPoolCluster: openebs-cstor-disk-pool
-  replicaCount: "3"
+  replicaCount: "{{ openebs_replicas }}"

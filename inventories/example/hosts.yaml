@@ -6,10 +6,15 @@ all:
     cluster_domain: local
     cluster_service_subnet: 10.96.0.0/12
     cluster_pod_subnet: 10.244.0.0/16
-    cluster_cni: flannel
+    cluster_cni: cilium
+    kubeadm_skip_kubeproxy: true
+    kube_network_cilium_kubeproxy_replacement: true
+    kube_network_cilium_gateway_api_enabled: true
     openebs_enabled: true
     kube_dashboard_enabled: true
     kube_dashboard_create_admin_service_account: true
+    metallb_enabled: true
+    metallb_ip_range: 10.10.20.80-10.10.20.89
   children:
     masters:
       hosts:

@@ -25,6 +25,10 @@
     src: /etc/kubernetes/admin.conf
     dest: ~/.kube/config
     flat: true
+
+- name: Force .kube/config mode
+  ansible.builtin.file:
+    path: ~/.kube/config
     mode: "0600"
 
 - name: Install Kubectl bash completion
