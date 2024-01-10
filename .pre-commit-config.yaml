@@ -15,18 +15,20 @@ repos:
         args:
           - --unsafe
       - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
       - id: trailing-whitespace
       - id: end-of-file-fixer
         exclude: \.json$
       - id: mixed-line-ending
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.21.1
+    rev: v6.22.1
     hooks:
       - id: ansible-lint
         additional_dependencies:
           - jmespath==1.0.1
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.32.0
+    rev: v1.33.0
     hooks:
       - id: yamllint
         files: \.(yaml|yml)$

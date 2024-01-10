@@ -122,3 +122,30 @@ When you run the playbook, you must provide the password file:
 ```bash
 ansible-playbook --vault-password-file ~/.ansible-vault-pass.txt -i inventories/<some name>/hosts.yaml site.yaml
 ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+### Pre-commit
+
+This repository uses [pre-commit](https://pre-commit.com/) to run some checks before committing the code.
+
+To install it, run the following command:
+
+```bash
+pip install pre-commit
+```
+
+To install the git hooks, run the following command:
+
+```bash
+pre-commit install
+```
+
+To mitage an issue with the `ansible-lint` hook, run the following command:
+
+```bash
+ansible-galaxy install -r requirements.yaml --force
+sudo ansible-galaxy install -r requirements.yaml --force
+```

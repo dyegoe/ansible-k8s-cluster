@@ -20,7 +20,7 @@ jobs:
       - name: Install Python Requirements
         run: pip install -r requirements.txt
       - name: Retrieve ansible-lint requirements
-        run: wget --output-document=.git/ansible-lint-requirements.txt https://raw.githubusercontent.com/ansible/ansible-lint/main/.config/requirements-lock.txt
+        run: curl -fsSL -o .git/ansible-lint-requirements.txt https://raw.githubusercontent.com/ansible/ansible-lint/main/.config/lock-requirements.txt
       - name: Install ansible-lint requirements
         run: pip install -r .git/ansible-lint-requirements.txt
       - name: Run ansible-lint
