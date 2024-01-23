@@ -1,12 +1,9 @@
 ---
-- name: Import playbook_all
-  ansible.builtin.import_playbook: playbook_all.yaml
+- name: Import playbook_setup_instances
+  ansible.builtin.import_playbook: playbook_setup_instances.yaml
 
-- name: Import playbook_masters
-  ansible.builtin.import_playbook: playbook_masters.yaml
+- name: Import playbook_kubeadm
+  ansible.builtin.import_playbook: playbook_kubeadm.yaml
 
-- name: Import playbook_workers
-  ansible.builtin.import_playbook: playbook_workers.yaml
-
-- name: Import playbook_masters_post_install
-  ansible.builtin.import_playbook: playbook_masters_post_install.yaml
+- name: Import playbook_post_install
+  ansible.builtin.import_playbook: playbook_post_install.yaml

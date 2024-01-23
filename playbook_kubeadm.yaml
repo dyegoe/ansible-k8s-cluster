@@ -1,0 +1,22 @@
+---
+- name: Kubeadm for Master hosts
+  hosts: masters
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+      tags: [always]
+  roles:
+    - role: kubeadm
+      tags: [kubeadm]
+
+- name: Kubeadm for Worker hosts
+  hosts: workers
+  become: true
+  pre_tasks:
+    - name: Include sanity check
+      ansible.builtin.include_tasks: sanity_check.yaml
+      tags: [always]
+  roles:
+    - role: kubeadm
+      tags: [kubeadm]

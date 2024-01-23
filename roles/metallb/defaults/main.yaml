@@ -1,6 +1,6 @@
 ---
 metallb_enabled: false
-metallb_version: v0.13.11
+metallb_version: v0.13.12
 metallb_helm_url: https://metallb.github.io/metallb
 metallb_ip_range: 10.10.20.80-10.10.20.89
 metallb_name: metallb
