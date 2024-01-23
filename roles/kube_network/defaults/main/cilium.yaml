@@ -1,7 +1,7 @@
 ---
-kube_network_cilium_version: v1.14.3
+kube_network_cilium_version: v1.14.6
 kube_network_cilium_helm_repo: https://helm.cilium.io/
-kube_network_cilium_cli_version: v0.15.11
+kube_network_cilium_cli_version: v0.15.20
 kube_network_cilium_cli_url: https://github.com/cilium/cilium-cli/releases/download/{{ kube_network_cilium_cli_version }}/cilium-linux-{{ arch }}.tar.gz  # yamllint disable-line rule:line-length
 kube_network_cilium_cli_sha256_url: https://github.com/cilium/cilium-cli/releases/download/{{ kube_network_cilium_cli_version }}/cilium-linux-{{ arch }}.tar.gz.sha256sum  # yamllint disable-line rule:line-length
 kube_network_cilium_cli_temp_file: cilium-{{ kube_network_cilium_cli_version }}-linux-{{ arch }}.tar.gz
