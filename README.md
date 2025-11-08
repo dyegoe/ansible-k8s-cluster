@@ -5,7 +5,7 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
 ## Prerequisites
 
 - Ansible 2.14.10
-- Ubuntu 22.04
+- Rocky Linux 10 or Ubuntu 24.04
 
 ## Good to know
 
@@ -16,6 +16,7 @@ This repository deploys a Kubernetes cluster with a single master and multiple w
   - `cluster_service_subnet` (default: `10.96.0.0/12`)
   - `cluster_pod_subnet` (default: `10.244.0.0/16`)
   - `cluster_cni` (default: `flannel`)
+  - `cluster_schedule_on_master` (default: `false`)
 - Set `kubeadm_skip_kubeproxy` to `true` and set `kube_network_cilium_kubeproxy_replacement` to `true` if you want to use Cilium kube-proxy replacement. Refer to the [Cilium documentation](https://docs.cilium.io/en/latest/network/kubernetes/kubeproxy-free/#kubeproxy-free) for more information.
 
 ## Usage
@@ -52,7 +53,7 @@ If you will be running the playbook with any encrypted variable, please refer to
 
 ## Limitations
 
-- Only supports Ubuntu 22.04
+- Only supports Rocky Linux 10 or Ubuntu 24.04
 - Only supports a single master node
 - ArgoCD bootstrap process works only `HTTPS` private repository. If you want to use `SSH` repository, it must be public.
 

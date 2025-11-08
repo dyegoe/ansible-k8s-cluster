@@ -1,4 +1,12 @@
 ---
+- name: Install packages (RedHat/Rocky)
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - git
+
 - name: Create a temporary directory
   ansible.builtin.tempfile:
     state: directory
@@ -22,7 +30,7 @@
 
 - name: Move Helm CLI to bin path
   ansible.builtin.copy:
-    src: "{{ helm_temp_dir.path }}/linux-amd64/helm"
+    src: "{{ helm_temp_dir.path }}/linux-{{ arch }}/helm"
     dest: "{{ helm_bin_path }}"
     remote_src: true
     mode: "0555"

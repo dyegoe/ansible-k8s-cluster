@@ -7,5 +7,6 @@
       ansible.builtin.include_tasks: sanity_check.yaml
       tags: [always]
   roles:
-    - role: kubeadm
+    - name: Kubernetes bootstrapping
+      role: kubeadm
       tags: [kubeadm]

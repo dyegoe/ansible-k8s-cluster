@@ -1,0 +1,13 @@
+---
+- name: Add Docker repository (RedHat/Rocky)
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: "0644"
+
+- name: Install containerd (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: containerd.io
+    state: present
+    update_cache: true
+  notify: Restart containerd

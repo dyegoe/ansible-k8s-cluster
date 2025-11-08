@@ -10,23 +10,3 @@
     - name: Approve bootstrap certificate requests
       role: kube_csr
       tags: [kube_csr]
-
-    - role: kubeseal
-      tags: [kubeseal]
-      when: kubeseal_enabled | default(false) | bool
-
-    - role: metallb
-      tags: [metallb]
-      when: metallb_enabled | default(false) | bool
-
-    - role: argocd
-      tags: [argocd]
-      when: argocd_enabled | default(false) | bool
-
-    - role: openebs
-      tags: [openebs]
-      when: openebs_enabled | default(false) | bool
-
-    - role: kube_dashboard
-      tags: [kube_dashboard]
-      when: kube_dashboard_enabled | default(false) | bool

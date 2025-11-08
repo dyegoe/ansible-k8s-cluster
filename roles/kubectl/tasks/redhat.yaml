@@ -1,0 +1,21 @@
+---
+- name: Install packages (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - kubectl
+    - bash-completion
+
+- name: Install dnf-plugin-versionlock (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: python3-dnf-plugin-versionlock
+    state: present
+
+- name: Mark kubeadm and kubelet on hold (RedHat/Rocky)
+  ansible.builtin.command:
+    cmd: dnf versionlock add {{ item }}
+  loop:
+    - kubectl
+  changed_when: false

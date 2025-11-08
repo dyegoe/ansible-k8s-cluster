@@ -1,11 +1,7 @@
 ---
-- name: Install containerd
-  ansible.builtin.apt:
-    name: containerd
-    state: present
-    update_cache: true
-  when: ansible_os_family == "Debian"
-  notify: Restart containerd
+- name: Include OS specific installation tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yaml"
+  when: ansible_os_family in ['Debian', 'RedHat']
 
 - name: Create containerd directory
   ansible.builtin.file:
@@ -37,14 +33,6 @@
     backrefs: true
   notify: Restart containerd
   changed_when: false
-
-- name: Copy crictl.yaml
-  ansible.builtin.copy:
-    src: crictl.yaml
-    dest: /etc/crictl.yaml
-    owner: root
-    group: root
-    mode: "0644"
 
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers

@@ -1,0 +1,7 @@
+---
+- name: Install containerd (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: containerd
+    state: present
+    update_cache: true
+  notify: Restart containerd

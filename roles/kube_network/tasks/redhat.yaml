@@ -1,0 +1,13 @@
+---
+- name: Install packages (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - python3-pip
+
+- name: Install Kubernetes Python client via pip
+  ansible.builtin.pip:
+    name: kubernetes
+    state: present

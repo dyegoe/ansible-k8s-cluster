@@ -1,0 +1,31 @@
+---
+- name: Add Kubernetes repository (RedHat/Rocky)
+  ansible.builtin.yum_repository:
+    name: kubernetes
+    description: Kubernetes Repository
+    baseurl: https://pkgs.k8s.io/core:/stable:/v{{ kube_install_kubernetes_version }}/rpm/
+    gpgcheck: true
+    gpgkey: https://pkgs.k8s.io/core:/stable:/v{{ kube_install_kubernetes_version }}/rpm/repodata/repomd.xml.key
+    enabled: true
+
+- name: Install kubeadm and kubelet (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - kubeadm
+    - kubelet
+
+- name: Install dnf-plugin-versionlock (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: python3-dnf-plugin-versionlock
+    state: present
+
+- name: Mark kubeadm and kubelet on hold (RedHat/Rocky)
+  ansible.builtin.command:
+    cmd: dnf versionlock add {{ item }}
+  loop:
+    - kubeadm
+    - kubelet
+  changed_when: false

@@ -1,15 +1,13 @@
 ---
 all:
   vars:
-    ansible_user: ubuntu
+    ansible_user: user
     cluster_name: k8s
     cluster_domain: local
     cluster_service_subnet: 10.96.0.0/12
     cluster_pod_subnet: 10.244.0.0/16
     cluster_cni: flannel
-    openebs_enabled: true
-    kube_dashboard_enabled: true
-    kube_dashboard_create_admin_service_account: true
+    cluster_schedule_on_master: true
   children:
     masters:
       hosts:

@@ -1,7 +1,7 @@
 ---
-- name: Install for Debian family
-  ansible.builtin.include_tasks: install_debian.yaml
-  when: ansible_os_family == 'Debian'
+- name: Include OS specific installation tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yaml"
+  when: ansible_os_family in ['Debian', 'RedHat']
 
 - name: Setup kubectl
   ansible.builtin.include_tasks: setup.yaml

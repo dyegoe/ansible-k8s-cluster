@@ -7,8 +7,10 @@
       ansible.builtin.include_tasks: sanity_check.yaml
       tags: [always]
   roles:
-    - role: containerd
+    - name: Containerd installation
+      role: containerd
       tags: [containerd]
 
-    - role: kube_install
+    - name: Kubernetes installation
+      role: kube_install
       tags: [kube_install]

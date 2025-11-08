@@ -7,14 +7,18 @@
       ansible.builtin.include_tasks: sanity_check.yaml
       tags: [always]
   roles:
-    - role: kubeadm
+    - name: Kubernetes bootstrapping
+      role: kubeadm
       tags: [kubeadm]
 
-    - role: kubectl
+    - name: Kubernetes CLI installation
+      role: kubectl
       tags: [kubectl]
 
-    - role: helm
+    - name: Helm installation
+      role: helm
       tags: [helm]
 
-    - role: kube_network
+    - name: Kubernetes network configuration
+      role: kube_network
       tags: [kube_network]

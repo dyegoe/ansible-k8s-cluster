@@ -37,3 +37,10 @@
   delegate_to: localhost
   changed_when: false
   become: false
+
+- name: Untaint master node if scheduling on master is enabled
+  ansible.builtin.command:
+    cmd: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+  when: kubeadm_schedule_on_master | default(false) | bool
+  changed_when: false
+  failed_when: false

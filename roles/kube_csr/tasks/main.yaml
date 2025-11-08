@@ -8,6 +8,6 @@
 - name: Approve certificates requests
   ansible.builtin.command:
     cmd: kubectl certificate approve {{ item }}
-  loop: "{{ csr_list | default({}) | community.general.json_query('resources[?length(status)==`0`].metadata.name') }}"  # yamllint disable-line
+  loop: "{{ csr_list | default({}) | community.general.json_query('resources[?length(status)==`0`].metadata.name') }}" # yamllint disable-line rule:line-length rule:comments
   register: csr_approve
   changed_when: csr_approve.stdout != ""
