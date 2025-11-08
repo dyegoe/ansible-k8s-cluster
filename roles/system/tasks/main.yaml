@@ -1,0 +1,10 @@
+---
+- name: Disable and stop swap
+  ansible.builtin.command: swapoff -a
+  changed_when: false
+
+- name: Make swap disable persistent
+  ansible.builtin.replace:
+    path: /etc/fstab
+    regexp: ^(.*swap.*)$
+    replace: '#\1' # yamllint disable-line rule:quoted-strings rule:comments

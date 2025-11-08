@@ -1,0 +1,29 @@
+---
+all:
+  vars:
+    ansible_user: user
+    cluster_name: k8s
+    cluster_domain: local
+    cluster_service_subnet: 10.96.0.0/12
+    cluster_pod_subnet: 10.244.0.0/16
+    cluster_schedule_on_master: true
+    cluster_cni: cilium
+    kubeadm_skip_kubeproxy: true
+    kube_network_cilium_kubeproxy_replacement: true
+    kube_network_cilium_gateway_api_enabled: true
+    kube_network_cilium_hubble_enabled: true
+    kube_network_cilium_hubble_relay_enabled: true
+    kube_network_cilium_hubble_ui_enabled: true
+  children:
+    masters:
+      hosts:
+        master:
+          ansible_host: 10.10.20.10
+    workers:
+      hosts:
+        node1:
+          ansible_host: 10.10.20.11
+        node2:
+          ansible_host: 10.10.20.12
+        node3:
+          ansible_host: 10.10.20.13

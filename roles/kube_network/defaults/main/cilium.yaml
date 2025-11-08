@@ -1,16 +1,22 @@
 ---
-kube_network_cilium_version: v1.14.3
+kube_network_cilium_version: v1.18.3
 kube_network_cilium_helm_repo: https://helm.cilium.io/
-kube_network_cilium_cli_version: v0.15.11
-kube_network_cilium_cli_url: https://github.com/cilium/cilium-cli/releases/download/{{ kube_network_cilium_cli_version }}/cilium-linux-{{ arch }}.tar.gz  # yamllint disable-line rule:line-length
-kube_network_cilium_cli_sha256_url: https://github.com/cilium/cilium-cli/releases/download/{{ kube_network_cilium_cli_version }}/cilium-linux-{{ arch }}.tar.gz.sha256sum  # yamllint disable-line rule:line-length
+kube_network_cilium_cli_version: v0.18.8
+kube_network_cilium_cli_url: https://github.com/cilium/cilium-cli/releases/download/{{ kube_network_cilium_cli_version }}/cilium-linux-{{ arch }}.tar.gz # yamllint disable-line rule:line-length rule:comments
+kube_network_cilium_cli_sha256_url: https://github.com/cilium/cilium-cli/releases/download/{{ kube_network_cilium_cli_version }}/cilium-linux-{{ arch }}.tar.gz.sha256sum # yamllint disable-line rule:line-length rule:comments
 kube_network_cilium_cli_temp_file: cilium-{{ kube_network_cilium_cli_version }}-linux-{{ arch }}.tar.gz
 kube_network_cilium_cli_bin_path: /usr/local/bin/cilium
 kube_network_cilium_cli_bash_completion_path: /etc/bash_completion.d/cilium
 kube_network_cilium_kubeproxy_replacement: false
 kube_network_cilium_ingress_enabled: false
 kube_network_cilium_ingress_loadbalancer_mode: dedicated
+kube_network_cilium_gateway_api_enabled: false
 kube_network_cilium_envoy_enabled: false
 kube_network_cilium_hubble_enabled: false
 kube_network_cilium_hubble_relay_enabled: false
 kube_network_cilium_hubble_ui_enabled: false
+kube_network_cilium_gateway_api_crds_urls:
+  - url: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml
+    name: standard
+  - url: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
+    name: experimental

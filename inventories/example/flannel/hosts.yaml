@@ -6,8 +6,8 @@ all:
     cluster_domain: local
     cluster_service_subnet: 10.96.0.0/12
     cluster_pod_subnet: 10.244.0.0/16
-    cluster_cni: flannel
     cluster_schedule_on_master: true
+    cluster_cni: flannel
   children:
     masters:
       hosts:
