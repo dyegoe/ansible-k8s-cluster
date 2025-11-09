@@ -1,3 +1,6 @@
+operator:
+  replicas: {{ groups['masters'] | length + groups['workers'] | length }}
+
 {% if kube_network_cilium_kubeproxy_replacement %}
 k8sServiceHost: {{ ansible_host }}
 k8sServicePort: 6443
