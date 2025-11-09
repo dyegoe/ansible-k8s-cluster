@@ -88,6 +88,56 @@
     cmd: "{{ kube_network_cilium_cli_bin_path }} completion bash > {{ kube_network_cilium_cli_bash_completion_path }}"
     creates: "{{ kube_network_cilium_cli_bash_completion_path }}"
 
+- name: Download Cilium Hubble CLI
+  ansible.builtin.get_url:
+    url: "{{ kube_network_cilium_hubble_cli_url }}"
+    dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_hubble_cli_temp_file }}"
+    mode: "0555"
+  changed_when: false
+
+- name: Download Cilium HubbleCLI checksum
+  ansible.builtin.get_url:
+    url: "{{ kube_network_cilium_hubble_cli_sha256_url }}"
+    dest: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_hubble_cli_temp_file }}.sha256"
+    mode: "0555"
+  changed_when: false
+
+- name: Use sha256 to calculate the checksum
+  ansible.builtin.stat:
+    path: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_hubble_cli_temp_file }}"
+    checksum_algorithm: sha256
+  register: kube_network_cilium_hubble_cli_sha256_stat
+
+- name: Get the checksum from the file
+  ansible.builtin.slurp:
+    path: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_hubble_cli_temp_file }}.sha256"
+  register: kube_network_cilium_hubble_cli_sha256_slurp
+
+- name: Check if the checksum is correct
+  ansible.builtin.fail:
+    msg: Checksum of {{ kube_network_cilium_hubble_cli_temp_file }} is not correct
+  when: kube_network_cilium_hubble_cli_sha256_stat.stat.checksum != kube_network_cilium_hubble_cli_sha256_slurp.content | b64decode | split(' ') | first # yamllint disable-line rule:line-length rule:comments
+
+- name: Uncompress Cilium CLI
+  ansible.builtin.unarchive:
+    src: "{{ kube_network_temp_dir.path }}/{{ kube_network_cilium_hubble_cli_temp_file }}"
+    dest: "{{ kube_network_temp_dir.path }}"
+    remote_src: true
+    mode: "0555"
+  changed_when: false
+
+- name: Move Cilium CLI to bin path
+  ansible.builtin.copy:
+    src: "{{ kube_network_temp_dir.path }}/hubble"
+    dest: "{{ kube_network_cilium_hubble_cli_bin_path }}"
+    remote_src: true
+    mode: "0555"
+
+- name: Install Cilium bash completion
+  ansible.builtin.shell:
+    cmd: "{{ kube_network_cilium_hubble_cli_bin_path }} completion bash > {{ kube_network_cilium_hubble_cli_bash_completion_path }}"
+    creates: "{{ kube_network_cilium_hubble_cli_bash_completion_path }}"
+
 - name: Template for Cilium Helm chart
   ansible.builtin.template:
     src: cilium-values.yaml.j2

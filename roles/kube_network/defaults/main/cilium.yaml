@@ -7,6 +7,12 @@ kube_network_cilium_cli_sha256_url: https://github.com/cilium/cilium-cli/release
 kube_network_cilium_cli_temp_file: cilium-{{ kube_network_cilium_cli_version }}-linux-{{ arch }}.tar.gz
 kube_network_cilium_cli_bin_path: /usr/local/sbin/cilium
 kube_network_cilium_cli_bash_completion_path: /etc/bash_completion.d/cilium
+kube_network_cilium_hubble_cli_version: v1.18.3
+kube_network_cilium_hubble_cli_url: https://github.com/cilium/hubble/releases/download/{{ kube_network_cilium_hubble_cli_version }}/hubble-linux-{{ arch }}.tar.gz # yamllint disable-line rule:line-length rule:comments
+kube_network_cilium_hubble_cli_sha256_url: https://github.com/cilium/hubble/releases/download/{{ kube_network_cilium_hubble_cli_version }}/hubble-linux-{{ arch }}.tar.gz.sha256sum # yamllint disable-line rule:line-length rule:comments
+kube_network_cilium_hubble_cli_temp_file: hubble-{{ kube_network_cilium_hubble_cli_version }}-linux-{{ arch }}.tar.gz
+kube_network_cilium_hubble_cli_bin_path: /usr/local/sbin/hubble
+kube_network_cilium_hubble_cli_bash_completion_path: /etc/bash_completion.d/hubble
 kube_network_cilium_kubeproxy_replacement: false
 kube_network_cilium_ingress_enabled: false
 kube_network_cilium_ingress_loadbalancer_mode: dedicated
