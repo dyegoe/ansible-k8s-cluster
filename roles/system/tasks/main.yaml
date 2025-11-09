@@ -1,4 +1,8 @@
 ---
+- name: Include OS specific installation tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yaml"
+  when: ansible_os_family in ['Debian', 'RedHat']
+
 - name: Disable and stop swap
   ansible.builtin.command: swapoff -a
   changed_when: false
@@ -6,5 +10,5 @@
 - name: Make swap disable persistent
   ansible.builtin.replace:
     path: /etc/fstab
-    regexp: ^(.*swap.*)$
+    regexp: "^([^#].*swap.*)$" # yamllint disable-line rule:quoted-strings rule:comments
     replace: '#\1' # yamllint disable-line rule:quoted-strings rule:comments

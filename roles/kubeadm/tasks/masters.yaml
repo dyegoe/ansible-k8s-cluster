@@ -16,6 +16,19 @@
   changed_when: kubeadm_init.rc == 0
     and kubeadm_init.stdout.find('skipped') == -1
 
+- name: Create .kube directory
+  ansible.builtin.file:
+    path: ~/.kube
+    state: directory
+    mode: "0700"
+
+- name: Copy admin.conf to .kube directory
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/.kube/config
+    remote_src: true
+    mode: "0600"
+
 - name: Get kubeadm join command
   ansible.builtin.command:
     cmd: kubeadm token create --print-join-command
@@ -39,8 +52,11 @@
   become: false
 
 - name: Untaint master node if scheduling on master is enabled
-  ansible.builtin.command:
-    cmd: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-  when: kubeadm_schedule_on_master | default(false) | bool
-  changed_when: false
-  failed_when: false
+  kubernetes.core.k8s_taint:
+    state: absent
+    name: "{{ item }}.{{ cluster_domain }}"
+    taints:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+  loop: "{{ groups['masters'] }}"
+  when: kubeadm_schedule_on_master

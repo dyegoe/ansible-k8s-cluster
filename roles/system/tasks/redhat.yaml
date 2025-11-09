@@ -1,0 +1,10 @@
+---
+- name: Install packages (RedHat/Rocky)
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - kernel-modules-extra
+    - tar
+    - python3-packaging

@@ -8,7 +8,7 @@
     gpgkey: https://pkgs.k8s.io/core:/stable:/v{{ kube_install_kubernetes_version }}/rpm/repodata/repomd.xml.key
     enabled: true
 
-- name: Install packages (RedHat/Rocky)
+- name: Install kubeadm and kubelet (RedHat/Rocky)
   ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
@@ -30,3 +30,9 @@
     - kubeadm
     - kubelet
   changed_when: false
+
+- name: Enable and start kubelet service (RedHat/Rocky)
+  ansible.builtin.systemd:
+    name: kubelet
+    enabled: true
+    state: started

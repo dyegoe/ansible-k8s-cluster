@@ -59,7 +59,6 @@ If you will be running the playbook with any encrypted variable, please refer to
 
 ## Components
 
-- [ArgoCD](https://argoproj.github.io/argo-cd/) (not enabled by default)
 - [Containerd](https://containerd.io/)
 - [Helm](https://helm.sh/)
 - [Kubernetes](https://kubernetes.io/)
@@ -67,25 +66,6 @@ If you will be running the playbook with any encrypted variable, please refer to
   - [Flannel](https://github.com/flannel-io/flannel) (default)
   - [Calico](https://www.projectcalico.org/)
   - [Cilium](https://cilium.io/)
-- [MetalLB](https://metallb.universe.tf/) (not enabled by default)
-
-## Addons
-
-### ArgoCD
-
-ArgoCD is not enabled by default. To enable it, set the `argocd_enabled` variable to `true` in the `inventories/<some name>/hosts.yaml` file.
-
-Refer to the default values in the `roles/argocd/defaults/main.yaml` file for the available options.
-
-As mentioned above, ArgoCD bootstrap works only `HTTPS` private repository. If you want to use `SSH` repository, it must be public.
-When using `HTTPS` private repository, you must set `argocd_main_app_repo_private` to `true` and provide `argocd_main_app_repo_username` and `argocd_main_app_repo_password` variables.
-For security reasons, it is recommended to use [Ansible Vault](#ansible-vault) to encrypt the password.
-
-### MetalLB
-
-MetalLB is not enabled by default. To enable it, set the `metallb_enabled` variable to `true` in the `inventories/<some name>/hosts.yaml` file.
-
-Refer to the default values in the `roles/metallb/defaults/main.yaml` file for the available options.
 
 ## Ansible Vault
 
@@ -98,12 +78,12 @@ Create a file somewhere on your machine, for example `~/.ansible-vault-pass.txt`
 Encrypt a string to use it in a variable:
 
 ```bash
-ansible-vault encrypt_string --vault-password-file ~/.ansible-vault-pass.txt 'foobar' --name 'argocd_main_app_repo_password'
+ansible-vault encrypt_string --vault-password-file ~/.ansible-vault-pass.txt 'foobar' --name 'some_password'
 ```
 
 ```yaml
 Encryption successful
-argocd_main_app_repo_password: !vault |
+some_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           65633431303161646637623362306566363836333762346135336534663536333662353364396261
           6465326431663035653035313737613732363533343635350a386563336633346365323065353331
@@ -115,7 +95,7 @@ argocd_main_app_repo_password: !vault |
 If you have 1Password, you may use this command to retrieve the password:
 
 ```bash
-ansible-vault encrypt_string --vault-password-file ~/.ansible-vault-pass.txt $(op item get 'GitLab Token - dyegoe argocd' --fields token) --name 'argocd_main_app_repo_password'
+ansible-vault encrypt_string --vault-password-file ~/.ansible-vault-pass.txt $(op item get 'GitLab Token - dyegoe argocd' --fields token) --name 'some_password'
 ```
 
 When you run the playbook, you must provide the password file:

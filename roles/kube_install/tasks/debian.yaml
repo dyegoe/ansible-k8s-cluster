@@ -27,3 +27,9 @@
   loop:
     - kubeadm
     - kubelet
+
+- name: Enable and start kubelet service (Debian/Ubuntu)
+  ansible.builtin.systemd:
+    name: kubelet
+    enabled: true
+    state: started
