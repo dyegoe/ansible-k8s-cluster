@@ -10,7 +10,9 @@ all:
     cluster_cni: cilium
     kubeadm_skip_kubeproxy: true
     kube_network_cilium_kubeproxy_replacement: true
-    kube_network_cilium_gateway_api_enabled: true
+    kube_network_cilium_bgp_control_plane_enabled: true
+    kube_network_cilium_ingress_enabled: true
+    kube_network_cilium_ingress_loadbalancer_mode: dedicated
     kube_network_cilium_hubble_enabled: true
     kube_network_cilium_hubble_relay_enabled: true
     kube_network_cilium_hubble_ui_enabled: true

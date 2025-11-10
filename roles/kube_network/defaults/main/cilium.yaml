@@ -13,11 +13,12 @@ kube_network_cilium_hubble_cli_sha256_url: https://github.com/cilium/hubble/rele
 kube_network_cilium_hubble_cli_temp_file: hubble-{{ kube_network_cilium_hubble_cli_version }}-linux-{{ arch }}.tar.gz
 kube_network_cilium_hubble_cli_bin_path: /usr/local/sbin/hubble
 kube_network_cilium_hubble_cli_bash_completion_path: /etc/bash_completion.d/hubble
+kube_network_cilium_envoy_enabled: true
 kube_network_cilium_kubeproxy_replacement: false
+kube_network_cilium_bgp_control_plane_enabled: false
 kube_network_cilium_ingress_enabled: false
 kube_network_cilium_ingress_loadbalancer_mode: dedicated
 kube_network_cilium_gateway_api_enabled: false
-kube_network_cilium_envoy_enabled: false
 kube_network_cilium_hubble_enabled: false
 kube_network_cilium_hubble_relay_enabled: false
 kube_network_cilium_hubble_ui_enabled: false
